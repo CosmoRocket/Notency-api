@@ -21,6 +21,7 @@
     "drop": "node models/drop.js",
     "reset": "npm run drop && npm run seed",
     "flow": "flow check",
-    "test-recipient": "NODE_ENV=test jest tests/recipient-test.js --watch"
+    "flow-typed": "flow-typed",
+    "test": "NODE_ENV=test jest --watch"
   }
 }
