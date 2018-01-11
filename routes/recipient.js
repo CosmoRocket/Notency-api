@@ -1,3 +1,4 @@
+/* @flow */
 const express = require('express')
 const Recipient = require('../models/Recipient')
 const router = express.Router()

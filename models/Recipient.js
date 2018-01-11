@@ -1,3 +1,4 @@
+/* @flow */
 let mongoose = null
 if (process.env.NODE_ENV === 'test')
   mongoose = require('./init-test') // Choose a different environment, if it's a test

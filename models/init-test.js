@@ -1,3 +1,4 @@
+/* @flow */
 const mongoose = require('mongoose')
 
 // Use the Promise functionality built into Node.js
