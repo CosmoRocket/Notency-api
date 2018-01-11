@@ -1,4 +1,7 @@
-const mongoose = require('./init')
+let mongoose = null
+if (process.env.NODE_ENV === 'test')
+  mongoose = require('./init-test') // Choose a different environment, if it's a test
+else mongoose = require('./init') // Otherwise, use default configuration
 const Schema = mongoose.Schema
 
 /*
