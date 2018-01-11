@@ -1,9 +1,7 @@
 /* @flow */
-let mongoose = null
-if (process.env.NODE_ENV === 'test')
-  mongoose = require('./init-test') // Choose a different environment, if it's a test
-else mongoose = require('./init') // Otherwise, use default configuration
-const Schema = mongoose.Schema
+// Choose a different environment, if it's a test
+const mongoose =
+  process.env.NODE_ENV === 'test' ? require('./init-test') : require('./init') // Otherwise, use default configuration
 
 /*
 Recipient Model
@@ -14,7 +12,7 @@ Mobile - Unique - e.g. +61444888000
 Email - Unique - e.g. somone@example.com
 Nationality - e.g. Australia
 */
-const recipientSchema = new Schema({
+const recipientSchema = new mongoose.Schema({
   recipientId: { type: String, required: true, unique: true }, // Recipient ID - Unique - (Student ID or Teacher ID) e.g. 201812345678
   firstName: { type: String }, // First Name - e.g. John
   lastName: { type: String }, // Last Name - e.g. Smith
