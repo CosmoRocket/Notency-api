@@ -10,12 +10,14 @@
     "mongoose": "^4.13.9"
   },
   "devDependencies": {
+    "jest": "^22.0.5",
     "nodemon": "^1.14.10"
   },
   "scripts": {
     "dev": "nodemon server.js",
     "seed": "node models/seeds.js",
     "drop": "node models/drop.js",
-    "reset": "npm run drop && npm run seed"
+    "reset": "npm run drop && npm run seed",
+    "test-recipient": "NODE_ENV=test jest tests/recipient-test.js --watch"
   }
 }
