@@ -1,3 +1,4 @@
+/* @flow */
 const Recipient = require('./Recipient')
 
 Recipient.deleteMany()
