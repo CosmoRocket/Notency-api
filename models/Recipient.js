@@ -1,9 +1,7 @@
 /* @flow */
-let mongoose = null
-if (process.env.NODE_ENV === 'test')
-  mongoose = require('./init-test') // Choose a different environment, if it's a test
-else mongoose = require('./init') // Otherwise, use default configuration
-const Schema = mongoose.Schema
+// Choose a different environment, if it's a test
+const mongoose =
+  process.env.NODE_ENV === 'test' ? require('./init-test') : require('./init')
 
 /*
 Recipient Model
