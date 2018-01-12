@@ -26,8 +26,14 @@ const attributes3 = {
   nationality: 'Australia'
 }
 
-beforeAll(() => {
+beforeAll(async () => {
   console.log('Test started.')
+  try {
+    await Recipient.deleteMany()
+    console.log('Test ended. Data deleted.')
+  } catch (error) {
+    console.error('Error deleting data', error)
+  }
 })
 
 describe('Create first recipient', () => {
@@ -131,9 +137,12 @@ describe('Delete a recipient by ID', () => {
   })
 })
 
-afterAll(() => {
-  // Delete all recipient data
-  Recipient.deleteMany().then( () => {
+afterAll(async () => {
+  console.log('Test started.')
+  try {
+    await Recipient.deleteMany()
     console.log('Test ended. Data deleted.')
-  })
+  } catch (error) {
+    console.error('Error deleting data', error)
+  }
 })
