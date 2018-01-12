@@ -1,15 +1,30 @@
+/* @flow */
+// Load .env file in development
+if (process.env.NODE_ENV !== 'production') require('dotenv').config()
 const express = require('express')
 const bodyParser = require('body-parser')
+const authMiddleware = require('./middleware/auth')
 
 const server = express()
 
 // Middleware Plugins
-server.use(bodyParser.json())
+server.use(bodyParser.json()) // Allows me to have JSON uploads (POST/PATCH/PUT)
+server.use(authMiddleware.initialize) // Kick passport off
 
 // Routes
 server.use('/', [
-  require('./routes/recipient')
+  require('./routes/recipient'),
+  require('./routes/auth')
 ])
+
+// Error handler
+server.use((error, req, res, next) => {
+  res.json({
+    error: {
+      message: error.message
+    }
+  })
+})
 
 // Start the server
 server.listen(7000, error => {
