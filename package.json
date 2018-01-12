@@ -5,7 +5,9 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.17.1",
     "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
     "express": "^4.16.2",
     "mongoose": "^4.13.9",
     "passport": "^0.4.0",
@@ -27,6 +29,7 @@
     "reset": "npm run drop && npm run seed",
     "flow": "flow check",
     "flow-typed": "flow-typed",
-    "test": "NODE_ENV=test jest --watch"
+    "test": "NODE_ENV=test nodemon server-test.js",
+    "jest": "NODE_ENV=test jest --watch"
   }
 }
