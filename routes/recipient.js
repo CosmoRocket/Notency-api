@@ -1,10 +1,11 @@
 /* @flow */
 const express = require('express')
 const Recipient = require('../models/Recipient')
+const authMiddleware = require('../middleware/auth')
 const router = express.Router()
 
 // GET - Read all recipients
-router.get('/recipients', (req, res) => {
+router.get('/recipients', authMiddleware.requireJWT, (req, res) => {
   Recipient.find()
   .then(recipients => {
     res.json(recipients)
@@ -15,7 +16,7 @@ router.get('/recipients', (req, res) => {
 })
 
 // GET - Read an individual recipient document
-router.get('/recipients/:id', (req, res) => {
+router.get('/recipients/:id', authMiddleware.requireJWT, (req, res) => {
   const id = req.params.id
   Recipient.findById(id)
   .then(recipient => {
@@ -32,7 +33,7 @@ router.get('/recipients/:id', (req, res) => {
 })
 
 // POST - Create a new recipient document
-router.post('/recipients', (req, res) => {
+router.post('/recipients', authMiddleware.requireJWT, (req, res) => {
   const attributes = req.body
   Recipient.create(attributes)
   .then(recipient => {
@@ -44,7 +45,7 @@ router.post('/recipients', (req, res) => {
 })
 
 // PATCH - Update a recipient document
-router.patch('/recipients/:id', (req, res) => {
+router.patch('/recipients/:id', authMiddleware.requireJWT, (req, res) => {
   const id = req.params.id
   const attributes = req.body
   Recipient.findByIdAndUpdate(id, attributes, { new: true, runValidators: true })
@@ -62,7 +63,7 @@ router.patch('/recipients/:id', (req, res) => {
 })
 
 // DELETE - Destroy a recipient document
-router.delete('/recipients/:id', (req, res) => {
+router.delete('/recipients/:id', authMiddleware.requireJWT, (req, res) => {
   const id = req.params.id
   Recipient.findByIdAndRemove(id)
   .then(recipient => {
