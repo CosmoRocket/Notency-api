@@ -16,7 +16,7 @@ const setToken = token => {
   }
 }
 
-let userId = null
+let userId = ''
 const user = {
   username: 'admin',
   password: 'password123'
