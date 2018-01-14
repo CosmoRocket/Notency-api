@@ -161,7 +161,7 @@ describe('Create response message for Notification 1', () => {
       response1.recipientId = recipientId
       const msg = await Message.create(response1)
       // Set id of first message to be searched later
-      messageId = msg._id
+      const messageId = msg._id
       const attributes = {
         responses: [messageId]
       }
@@ -183,7 +183,7 @@ describe('Create response message for Notification 2', () => {
       response2.recipientId = recipientId
       const msg = await Message.create(response2)
       // Set id of first message to be searched later
-      messageId = msg._id
+      const messageId = msg._id
       const attributes = {
         responses: [messageId]
       }
@@ -205,7 +205,7 @@ describe('Create response message for Notification 3', () => {
       response3.recipientId = recipientId
       const msg = await Message.create(response3)
       // Set id of first message to be searched later
-      messageId = msg._id
+      const messageId = msg._id
       const attributes = {
         responses: [messageId]
       }
