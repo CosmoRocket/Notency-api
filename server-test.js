@@ -15,8 +15,10 @@ server.use(authMiddleware.initialize) // Kick passport off
 
 // Routes
 server.use('/', [
+  require('./routes/auth'),
   require('./routes/recipient'),
-  require('./routes/auth')
+  require('./routes/message'),
+  require('./routes/notification')
 ])
 
 // Error handler
