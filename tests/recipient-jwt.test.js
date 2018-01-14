@@ -16,7 +16,7 @@ const setToken = token => {
   }
 }
 
-let userId = ''
+let recipientId = ''
 const user = {
   username: 'admin',
   password: 'password123'
@@ -76,7 +76,7 @@ describe('Create first recipient', () => {
       const response = await api.post('/recipients', attributes1)
       expect(response.status).toBe(201)
       // Set this user as the id to be checked later on
-      userId = response.data._id
+      recipientId = response.data._id
     } catch (error) {
       expect(error).toBeFalsy()
     }
@@ -132,9 +132,9 @@ describe('Get all recipients', () => {
 describe('Get a recipient by ID', () => {
   test('It should return a specific recipient', async () => {
     try {
-      const response = await api.get(`/recipients/${userId}`)
+      const response = await api.get(`/recipients/${recipientId}`)
       expect(response.status).toBe(200)
-      expect(response.data._id).toEqual(userId)
+      expect(response.data._id).toEqual(recipientId)
     } catch (error) {
       expect(error).toBeFalsy()
     }
@@ -148,9 +148,9 @@ describe('Update a recipient', () => {
         firstName: 'Amadeus',
         lastName: 'Cho'
       }
-      const response = await api.patch(`/recipients/${userId}`, attributes)
+      const response = await api.patch(`/recipients/${recipientId}`, attributes)
       expect(response.status).toBe(200)
-      expect(response.data._id).toEqual(userId)
+      expect(response.data._id).toEqual(recipientId)
       expect(response.data.firstName).toEqual(attributes.firstName)
       expect(response.data.lastName).toEqual(attributes.lastName)
     } catch (error) {
@@ -162,9 +162,9 @@ describe('Update a recipient', () => {
 describe('Delete a recipient by ID', () => {
   test('It should delete a specific recipient', async () => {
     try {
-      const response = await api.delete(`/recipients/${userId}`)
+      const response = await api.delete(`/recipients/${recipientId}`)
       expect(response.status).toBe(200)
-      expect(response.data._id).toEqual(userId)
+      expect(response.data._id).toEqual(recipientId)
     } catch (error) {
       expect(error).toBeFalsy()
     }
@@ -174,7 +174,7 @@ describe('Delete a recipient by ID', () => {
 describe('Deleted recipient should can no longer be queried', () => {
   test('It should not find the deleted recipient', async () => {
     try {
-      const response = await api.get(`/recipients/${userId}`)
+      const response = await api.get(`/recipients/${recipientId}`)
       expect(response.status).toBe(404)
     } catch (error) {
       expect(error).toBeTruthy()
