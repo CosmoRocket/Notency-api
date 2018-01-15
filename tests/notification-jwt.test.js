@@ -184,48 +184,6 @@ describe('Get a notification by ID', () => {
   })
 })
 
-// describe('Create a message', () => {
-//   test('It should create a new message', async () => {
-//     try {
-//       attributes1.recipientId = recipientId
-//       const response = await api.post('/messages', attributes1)
-//       expect(response.status).toBe(201)
-//       // Set this user as the id to be checked later on
-//       messageId = response.data._id
-//     } catch (error) {
-//       expect(error).toBeFalsy()
-//     }
-//   })
-// })
-
-// describe('Create a second message', () => {
-//   test('It should create a new message', async () => {
-//     try {
-//       attributes2.recipientId = recipientId
-//       const response = await api.post('/messages', attributes2)
-//       expect(response.status).toBe(201)
-//       // Set this user as the id to be checked later on
-//       messageId = response.data._id
-//     } catch (error) {
-//       expect(error).toBeFalsy()
-//     }
-//   })
-// })
-
-// describe('Create a third message', () => {
-//   test('It should create a new message', async () => {
-//     try {
-//       attributes3.recipientId = recipientId
-//       const response = await api.post('/messages', attributes3)
-//       expect(response.status).toBe(201)
-//       // Set this user as the id to be checked later on
-//       messageId = response.data._id
-//     } catch (error) {
-//       expect(error).toBeFalsy()
-//     }
-//   })
-// })
-
 describe('Update a notification', () => {
   test('It should update a specific notification', async () => {
     try {
@@ -242,7 +200,7 @@ describe('Update a notification', () => {
   })
 })
 
-describe('Send a response to Notification 1', () => {
+describe('Send a valid OK response to Notification 1', () => {
   test('It should append the response to notification', async () => {
     try {
       const sms = {
@@ -271,98 +229,114 @@ describe('Send a response to Notification 1', () => {
       expect(response.status).toBe(200)
     }
     catch (error) {
-      console.error(error)
       expect(error).toBeFalsy()
     }
   })
 })
-// describe('Create response message for Notification 1', () => {
-//   test('It should create a message and add the response to Notification 1', async () => {
-//     try {
-//       // Create response
-//       attributes1.recipientId = recipientId
-//       const messageRes = await api.post('/messages', attributes1)
-//       expect(messageRes.status).toBe(201)
 
-//       // Link the response to notification
-//       const attributes = {
-//         responses: [messageRes.data]
-//       }
-//       const notificationRes = await api.patch(`/notifications/${notificationId1}`, attributes)
-//       expect(notificationRes.status).toBe(200)
-//       expect(notificationRes.data._id).toEqual(notificationId1)
-//       expect(notificationRes.data.body).toEqual(attributes.responses)
-//     } catch (error) {
-//       expect(error).toBeFalsy()
-//     }
-//   })
-// })
+describe('Send an invalid response to Notification 1', () => {
+  test('It should throw an Invalid response message error', async () => {
+    try {
+      const sms = {
+        ToCountry: 'AU',
+        ToState: '',
+        SmsMessageSid: 'SMdb07337513b4f2d7933eda58eaffd0d6',
+        NumMedia: '0',
+        ToCity: '',
+        FromZip: '',
+        SmsSid: 'SMdb07337513b4f2d7933eda58eaffd0d6',
+        FromState: '',
+        SmsStatus: 'received',
+        FromCity: '',
+        Body: 'EQ2OK',
+        FromCountry: 'AU',
+        To: '+61448032193',
+        ToZip: '',
+        NumSegments: '1',
+        MessageSid: 'SMdb07337513b4f2d7933eda58eaffd0d6',
+        AccountSid: 'AC22458b497113eec0a935a684af68ab28',
+        From: '+61444888000',
+        ApiVersion: '2010-04-01'
+      }
 
-// describe('Create response message for Notification 1', () => {
-//   test('It should create a new message', async () => {
-//     try {
-//       response1.sender = recipientId
-//       const msg = await Message.create(response1)
-//       // Set id of first message to be searched later
-//       const messageId = msg._id
-//       const attributes = {
-//         responses: [messageId]
-//       }
-//       const data = await Notification.findByIdAndUpdate(notificationId1, attributes, {
-//         new: true,
-//         runValidators: true
-//       })
-//       const updatedData = await Notification.findById(data._id)
-//       expect(updatedData).toEqual(data)
-//     } catch (error) {
-//       expect(error).toBeFalsy()
-//     }
-//   })
-// })
+      const response = await api.patch('/notifications/receiveSMS', sms)
+      expect(response.status).toBe(400)
+    }
+    catch (error) {
+      expect(error).toBeTruthy()
+      expect(error.response.status).toBe(400)
+    }
+  })
+})
 
-// describe('Create response message for Notification 2', () => {
-//   test('It should create a new message', async () => {
-//     try {
-//       response2.sender = recipientId
-//       const msg = await Message.create(response2)
-//       // Set id of first message to be searched later
-//       const messageId = msg._id
-//       const attributes = {
-//         responses: [messageId]
-//       }
-//       const data = await Notification.findByIdAndUpdate(notificationId2, attributes, {
-//         new: true,
-//         runValidators: true
-//       })
-//       const updatedData = await Notification.findById(data._id)
-//       expect(updatedData).toEqual(data)
-//     } catch (error) {
-//       expect(error).toBeFalsy()
-//     }
-//   })
-// })
+describe('Send a valid Not OK response to Notification 1', () => {
+  test('It should append the response to notification', async () => {
+    try {
+      const sms = {
+        ToCountry: 'AU',
+        ToState: '',
+        SmsMessageSid: 'SMdb07337513b4f2d7933eda58eaffd0d6',
+        NumMedia: '0',
+        ToCity: '',
+        FromZip: '',
+        SmsSid: 'SMdb07337513b4f2d7933eda58eaffd0d6',
+        FromState: '',
+        SmsStatus: 'received',
+        FromCity: '',
+        Body: 'EQ2 I need help',
+        FromCountry: 'AU',
+        To: '+61448032193',
+        ToZip: '',
+        NumSegments: '1',
+        MessageSid: 'SMdb07337513b4f2d7933eda58eaffd0d6',
+        AccountSid: 'AC22458b497113eec0a935a684af68ab28',
+        From: '+61444888000',
+        ApiVersion: '2010-04-01'
+      }
 
-// describe('Create response message for Notification 3', () => {
-//   test('It should create a new message', async () => {
-//     try {
-//       response3.sender = recipientId
-//       const msg = await Message.create(response3)
-//       // Set id of first message to be searched later
-//       const messageId = msg._id
-//       const attributes = {
-//         responses: [messageId]
-//       }
-//       const data = await Notification.findByIdAndUpdate(notificationId3, attributes, {
-//         new: true,
-//         runValidators: true
-//       })
-//       const updatedData = await Notification.findById(data._id)
-//       expect(updatedData).toEqual(data)
-//     } catch (error) {
-//       expect(error).toBeFalsy()
-//     }
-//   })
-// })
+      const response = await api.patch('/notifications/receiveSMS', sms)
+      expect(response.status).toBe(200)
+    }
+    catch (error) {
+      expect(error).toBeFalsy()
+    }
+  })
+})
+
+describe('Send an invalid Not OK response to Notification 1', () => {
+  test('It should throw an Invalid response message error', async () => {
+    try {
+      const sms = {
+        ToCountry: 'AU',
+        ToState: '',
+        SmsMessageSid: 'SMdb07337513b4f2d7933eda58eaffd0d6',
+        NumMedia: '0',
+        ToCity: '',
+        FromZip: '',
+        SmsSid: 'SMdb07337513b4f2d7933eda58eaffd0d6',
+        FromState: '',
+        SmsStatus: 'received',
+        FromCity: '',
+        Body: 'I need help',
+        FromCountry: 'AU',
+        To: '+61448032193',
+        ToZip: '',
+        NumSegments: '1',
+        MessageSid: 'SMdb07337513b4f2d7933eda58eaffd0d6',
+        AccountSid: 'AC22458b497113eec0a935a684af68ab28',
+        From: '+61444888000',
+        ApiVersion: '2010-04-01'
+      }
+
+      const response = await api.patch('/notifications/receiveSMS', sms)
+      expect(response.status).toBe(400)
+    }
+    catch (error) {
+      expect(error).toBeTruthy()
+      expect(error.response.status).toBe(400)
+    }
+  })
+})
 
 describe('Delete a notification by ID', () => {
   test('It should delete a specific notification', async () => {
