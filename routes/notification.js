@@ -2,6 +2,7 @@ const express = require('express')
 const Notification = require('../models/Notification')
 const Recipient = require('../models/Recipient')
 const Message = require('../models/Message')
+const messageParser = require('../helper/message-parser')
 const authMiddleware = require('../middleware/auth')
 const router = express.Router()
 
@@ -22,9 +23,16 @@ router.patch('/notifications/receiveSMS', (req, res) => {
         sender: sender,
         body: body
       }
-      const code = 'EQ2'
+      let code = ''
       // TODO: Parse message if it's an OK message
       // TODO: Parse code from message body
+      if( messageParser.isValidResponse(body) ) {
+        code = messageParser.parseCodeFromMessage(body)
+        ok = messageParser.isOkMessage(body)
+      }
+      else {
+        throw new Error('Invalid response message')
+      }      
 
       Message.create(messageAttribute)
         .then(responseMessage => {
@@ -51,17 +59,17 @@ router.patch('/notifications/receiveSMS', (req, res) => {
               res.status(200).json(notification)
             })
             .catch(error => {
-              console.error(error)
+              // console.error(error)
               res.status(400).json({ error })
             })
         })
         .catch(error => {
-          console.error(error)
+          // console.error(error)
           res.status(400).json({ error })
         })
     })
     .catch(error => {
-      console.error(error)
+      // console.error(error)
       res.status(400).json({ error })
     })
 })
