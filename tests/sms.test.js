@@ -8,6 +8,16 @@ const api = axios.create({
   baseURL: 'http://localhost:7001', // Test Server
 })
 
+const setToken = token => {
+  if (token) {
+    // Set the authorization for all requests in the future
+    api.defaults.headers.common['Authorization'] = `Bearer ${token}`
+  }
+  else {
+    delete api.defaults.headers.common['Authorization']
+  }
+}
+
 let recipientId = ''
 let notificationId1 = ''
 let notificationId2 = ''
@@ -43,16 +53,6 @@ const attributes3 = {
   body: 'This is to inform all Students that there has been a Terror Attack in France. Please reply "FRANCETERROR OK" if you are safe.',
 }
 
-const setToken = token => {
-  if (token) {
-    // Set the authorization for all requests in the future
-    api.defaults.headers.common['Authorization'] = `Bearer ${token}`
-  }
-  else {
-    delete api.defaults.headers.common['Authorization']
-  }
-}
-
 beforeAll(async () => {
   try {
     await Notification.deleteMany()
@@ -70,7 +70,7 @@ describe('Create a user', () => {
     try {
       const response = await api.post('/auth/register', user)
       expect(response.status).toBe(200)
-      const token = response.data.token 
+      const token = response.data.token
       expect(token).not.toBeNull()
       if (token) setToken(token)
     } catch (error) {
@@ -239,6 +239,96 @@ describe('Send an invalid Not OK response to Notification 1', () => {
     catch (error) {
       expect(error).toBeTruthy()
       expect(error.message).toBe('Invalid response message')
+    }
+  })
+})
+
+// describe('Send a SMS message', () => {
+//   test('It should send a text message', async () => {
+//     try {
+//       const attributes = {
+//         recipient: "+61456360647",
+//         message: "This is a test announcement!!"
+//       }
+//       const response = await api.post('/sms/send', attributes)
+//       expect(response.data.error.message).toBeNull()
+//     } catch (error) {
+//       expect(error).toBeFalsy()
+//     }
+//   })
+// })
+
+describe('Send a SMS message with unverified number', () => {
+  test('It should not send a text message', async () => {
+    try {
+      const attributes = {
+        recipient: '+61456360647',
+        message: 'This is a test announcement!!'
+      }
+      const response = await api.post('/sms/send', attributes)
+    } catch (error) {
+      expect(error.message).toEqual('The number +61456360647 is unverified. Trial accounts cannot send messages to unverified numbers; verify +61456360647 at twilio.com/user/account/phone-numbers/verified, or purchase a Twilio number to send messages to unverified numbers.')
+    }
+  })
+})
+
+describe('Send a SMS message with empty recipient', () => {
+  test('It should not send a text message', async () => {
+    try {
+      const attributes = {
+        recipient: '',
+        message: 'This is a test announcement!!'
+      }
+      const response = await api.post('/sms/send', attributes)
+    } catch (error) {
+      expect(error).toBeTruthy()
+      expect(error.message).toEqual('Invalid SMS')
+    }
+  })
+})
+
+describe('Send a SMS message with empty body', () => {
+  test('It should not send a text message', async () => {
+    try {
+      const attributes = {
+        recipient: '+61456360647',
+        message: ''
+      }
+      const response = await api.post('/sms/send', attributes)
+    } catch (error) {
+      expect(error).toBeTruthy()
+      expect(error.message).toEqual('Invalid SMS')
+    }
+  })
+})
+
+describe('Send a SMS message with empty body and recipient', () => {
+  test('It should not send a text message', async () => {
+    try {
+      const attributes = {
+        recipient: '',
+        message: ''
+      }
+      const response = await api.post('/sms/send', attributes)
+    } catch (error) {
+      expect(error).toBeTruthy()
+      expect(error.message).toEqual('Invalid SMS')
+    }
+  })
+})
+
+describe('Send a Group SMS message with unverified numbers', () => {
+  test('It should not send a text message', async () => {
+    try {
+      const attributes = {
+        recipients: ['+61456360647','+61456360648','+61456360649'],
+        message: 'This is a test announcement!!'
+      }
+      const response = await api.post('/sms/groupSend', attributes)
+      expect(response.status).toBe(201)
+      expect(response.data.failed.length).toEqual(3)
+    } catch (error) {
+      expect(error).toBeFalsy()
     }
   })
 })
