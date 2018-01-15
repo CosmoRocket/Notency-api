@@ -9,13 +9,10 @@ const api = axios.create({
 })
 
 const setToken = token => {
-  if (token) {
-    // Set the authorization for all requests in the future
-    api.defaults.headers.common['Authorization'] = `Bearer ${token}`
-  }
-  else {
-    delete api.defaults.headers.common['Authorization']
-  }
+  api.defaults.headers.common['Authorization'] = `Bearer ${token}`
+}
+const getToken = () => {
+  return api.defaults.headers.common['Authorization'] 
 }
 
 let recipientId = ''
@@ -60,24 +57,32 @@ beforeAll(async () => {
     await Message.deleteMany()
     await User.deleteMany()
     console.log('Test started. Data deleted.')
+    while(getToken()===undefined) {
+      const response = await api.post('/auth/register', user)
+      const token = response.data.token
+      if (token) {
+        setToken(token)
+        console.log('Token created', token)
+      }
+    }
   } catch (error) {
     console.error('Error deleting data', error)
   }
 })
 
-describe('Create a user', () => {
-  test('It should create a new user', async () => {
-    try {
-      const response = await api.post('/auth/register', user)
-      expect(response.status).toBe(200)
-      const token = response.data.token 
-      expect(token).not.toBeNull()
-      if (token) setToken(token)
-    } catch (error) {
-      expect(error).toBeFalsy()
-    }
-  })
-})
+// describe('Create a user', () => {
+//   test('It should create a new user', async () => {
+//     try {
+//       const response = await api.post('/auth/register', user)
+//       expect(response.status).toBe(200)
+//       const token = response.data.token 
+//       expect(token).not.toBeNull()
+//       if (token) setToken(token)
+//     } catch (error) {
+//       expect(error).toBeFalsy()
+//     }
+//   })
+// })
 
 describe('Create a recipient', () => {
   test('It should create a new recipient', async () => {
