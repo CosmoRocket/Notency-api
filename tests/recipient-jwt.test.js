@@ -22,7 +22,7 @@ const user = {
   password: 'password123'
 }
 const attributes1 = {
-  recipientId: '201812345678',
+  idNo: '201812345678',
   firstName: 'John',
   lastName: 'Smith',
   mobile: '+61444888000',
@@ -30,7 +30,7 @@ const attributes1 = {
   nationality: 'Australia'
 }
 const attributes2 = {
-  recipientId: '201812345679',
+  idNo: '201812345699',
   firstName: 'Alex',
   lastName: 'Parker',
   mobile: '+61444888001',
@@ -38,7 +38,7 @@ const attributes2 = {
   nationality: 'Australia'
 }
 const attributes3 = {
-  recipientId: '201812345680',
+  idNo: '201812345680',
   firstName: 'Ben',
   lastName: 'Blaze',
   mobile: '+61444888002',
