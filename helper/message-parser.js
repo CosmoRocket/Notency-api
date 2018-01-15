@@ -3,6 +3,7 @@
 /*
 * Check if a message is a valid response that uses the format <Code> OK
 */
+// $FlowFixMe - Turn off type annotations
 const isValidResponse = message => {
   // Trim spaces before and after message
   const trimmedMessage = message.trim()
@@ -17,6 +18,7 @@ const isValidResponse = message => {
 /*
 * Check number of words in a message
 */
+// $FlowFixMe - Turn off type annotations
 const numWords = words => {
   // Convert words to trimmed String Array
   const wordArray = words.trim().split(' ')
@@ -32,6 +34,7 @@ const numWords = words => {
 /*
 * Get Nth word from a string
 */
+// $FlowFixMe - Turn off type annotations
 const getNthWord = (str, num) => {
   return str.split(' ')[num - 1]
 }
@@ -39,6 +42,7 @@ const getNthWord = (str, num) => {
 /*
 * Checks if a message responds as <Code> OK
 */
+// $FlowFixMe - Turn off type annotations
 const isOkMessage = message => {
   // Replace multiple spaces with a single space
   // and Trim spaces before and after message
@@ -56,6 +60,7 @@ const isOkMessage = message => {
 /*
 * Get code from message
 */
+// $FlowFixMe - Turn off type annotations
 const parseCodeFromMessage = message => {
   // The first word should be the code in Uppercase
   const code = getNthWord(message, 1).toUpperCase()
@@ -66,6 +71,7 @@ const parseCodeFromMessage = message => {
 /*
 * Replace multiple spaces with a single space
 */
+// $FlowFixMe - Turn off type annotations
 const replaceMultipleSpaces = str => {
   return str.replace(/ +(?= )/g, '')
 }
