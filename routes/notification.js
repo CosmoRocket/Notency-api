@@ -28,7 +28,7 @@ router.patch('/notifications/receiveSMS', (req, res) => {
       // TODO: Parse code from message body
       if( messageParser.isValidResponse(body) ) {
         code = messageParser.parseCodeFromMessage(body)
-        ok = messageParser.isOkMessage(body)
+        // ok = messageParser.isOkMessage(body) // Maybe use this later to tally Ok responses instead
       }
       else {
         throw new Error('Invalid response message')
