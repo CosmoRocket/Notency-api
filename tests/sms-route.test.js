@@ -57,7 +57,8 @@ beforeAll(async () => {
     await Message.deleteMany()
     await User.deleteMany()
     console.log('Test started. Data deleted.')
-    while(getToken()===undefined) {
+    // Create a User
+    while(!getToken()) {
       const response = await api.post('/auth/register', user)
       const token = response.data.token
       if (token) {
@@ -69,20 +70,6 @@ beforeAll(async () => {
     console.error('Error deleting data', error)
   }
 })
-
-// describe('Create a user', () => {
-//   test('It should create a new user', async () => {
-//     try {
-//       const response = await api.post('/auth/register', user)
-//       expect(response.status).toBe(200)
-//       const token = response.data.token
-//       expect(token).not.toBeNull()
-//       if (token) setToken(token)
-//     } catch (error) {
-//       expect(error).toBeFalsy()
-//     }
-//   })
-// })
 
 describe('Create a recipient', () => {
   test('It should create a new recipient', async () => {
