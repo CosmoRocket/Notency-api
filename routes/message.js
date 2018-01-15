@@ -1,3 +1,4 @@
+/* @flow */
 const express = require('express')
 const Message = require('../models/Message')
 const authMiddleware = require('../middleware/auth')
