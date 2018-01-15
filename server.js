@@ -18,7 +18,8 @@ server.use('/', [
   require('./routes/auth'),
   require('./routes/recipient'),
   require('./routes/message'),
-  require('./routes/notification')
+  require('./routes/notification'),
+  require('./routes/sms')
 ])
 
 // Error handler
