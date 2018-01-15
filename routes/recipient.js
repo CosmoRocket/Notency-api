@@ -4,6 +4,21 @@ const Recipient = require('../models/Recipient')
 const authMiddleware = require('../middleware/auth')
 const router = express.Router()
 
+// GET - Search recipients by Nationality
+router.get('/recipients/search', authMiddleware.requireJWT, async (req, res) => {
+  const attributes = req.body
+  const nationality = attributes.nationality
+  
+  try {
+    const recipients = await Recipient.find({nationality: nationality})
+    res.json(recipients)
+  }
+  catch(error) {
+    res.status(400).json({ error: error.message })
+  }
+
+})
+
 // GET - Read all recipients
 router.get('/recipients', authMiddleware.requireJWT, (req, res) => {
   Recipient.find()
