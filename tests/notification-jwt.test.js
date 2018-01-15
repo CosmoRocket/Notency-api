@@ -1,7 +1,3 @@
-// In progress
-
-// TODO: -- Have notification routes to create array of responses (i.e. similar to Yarra products wishlist)
-
 /* @flow */
 const axios = require('axios')
 const User = require('../models/User')
@@ -55,19 +51,6 @@ const attributes3 = {
   code: 'FR1',
   subject: 'Terror Attack in France',
   body: 'This is to inform all Students that there has been a Terror Attack in France. Please reply "FRANCETERROR OK" if you are safe.',
-}
-
-const response1 = {
-  sender: '',
-  body: 'EQ1 OK'
-}
-const response2 = {
-  sender: '',
-  body: 'TS1 OK'
-}
-const response3 = {
-  sender: '',
-  body: 'FR1 OK'
 }
 
 beforeAll(async () => {
@@ -196,144 +179,6 @@ describe('Update a notification', () => {
       expect(response.data.body).toEqual(attributes.body)
     } catch (error) {
       expect(error).toBeFalsy()
-    }
-  })
-})
-
-describe('Send a valid OK response to Notification 1', () => {
-  test('It should append the response to notification', async () => {
-    try {
-      const sms = {
-        ToCountry: 'AU',
-        ToState: '',
-        SmsMessageSid: 'SMdb07337513b4f2d7933eda58eaffd0d6',
-        NumMedia: '0',
-        ToCity: '',
-        FromZip: '',
-        SmsSid: 'SMdb07337513b4f2d7933eda58eaffd0d6',
-        FromState: '',
-        SmsStatus: 'received',
-        FromCity: '',
-        Body: 'EQ2 OK',
-        FromCountry: 'AU',
-        To: '+61448032193',
-        ToZip: '',
-        NumSegments: '1',
-        MessageSid: 'SMdb07337513b4f2d7933eda58eaffd0d6',
-        AccountSid: 'AC22458b497113eec0a935a684af68ab28',
-        From: '+61444888000',
-        ApiVersion: '2010-04-01'
-      }
-
-      const response = await api.patch('/notifications/receiveSMS', sms)
-      expect(response.status).toBe(200)
-    }
-    catch (error) {
-      expect(error).toBeFalsy()
-    }
-  })
-})
-
-describe('Send an invalid response to Notification 1', () => {
-  test('It should throw an Invalid response message error', async () => {
-    try {
-      const sms = {
-        ToCountry: 'AU',
-        ToState: '',
-        SmsMessageSid: 'SMdb07337513b4f2d7933eda58eaffd0d6',
-        NumMedia: '0',
-        ToCity: '',
-        FromZip: '',
-        SmsSid: 'SMdb07337513b4f2d7933eda58eaffd0d6',
-        FromState: '',
-        SmsStatus: 'received',
-        FromCity: '',
-        Body: 'EQ2OK',
-        FromCountry: 'AU',
-        To: '+61448032193',
-        ToZip: '',
-        NumSegments: '1',
-        MessageSid: 'SMdb07337513b4f2d7933eda58eaffd0d6',
-        AccountSid: 'AC22458b497113eec0a935a684af68ab28',
-        From: '+61444888000',
-        ApiVersion: '2010-04-01'
-      }
-
-      const response = await api.patch('/notifications/receiveSMS', sms)
-      expect(response.status).toBe(400)
-    }
-    catch (error) {
-      expect(error).toBeTruthy()
-      expect(error.response.status).toBe(400)
-    }
-  })
-})
-
-describe('Send a valid Not OK response to Notification 1', () => {
-  test('It should append the response to notification', async () => {
-    try {
-      const sms = {
-        ToCountry: 'AU',
-        ToState: '',
-        SmsMessageSid: 'SMdb07337513b4f2d7933eda58eaffd0d6',
-        NumMedia: '0',
-        ToCity: '',
-        FromZip: '',
-        SmsSid: 'SMdb07337513b4f2d7933eda58eaffd0d6',
-        FromState: '',
-        SmsStatus: 'received',
-        FromCity: '',
-        Body: 'EQ2 I need help',
-        FromCountry: 'AU',
-        To: '+61448032193',
-        ToZip: '',
-        NumSegments: '1',
-        MessageSid: 'SMdb07337513b4f2d7933eda58eaffd0d6',
-        AccountSid: 'AC22458b497113eec0a935a684af68ab28',
-        From: '+61444888000',
-        ApiVersion: '2010-04-01'
-      }
-
-      const response = await api.patch('/notifications/receiveSMS', sms)
-      expect(response.status).toBe(200)
-    }
-    catch (error) {
-      expect(error).toBeFalsy()
-    }
-  })
-})
-
-describe('Send an invalid Not OK response to Notification 1', () => {
-  test('It should throw an Invalid response message error', async () => {
-    try {
-      const sms = {
-        ToCountry: 'AU',
-        ToState: '',
-        SmsMessageSid: 'SMdb07337513b4f2d7933eda58eaffd0d6',
-        NumMedia: '0',
-        ToCity: '',
-        FromZip: '',
-        SmsSid: 'SMdb07337513b4f2d7933eda58eaffd0d6',
-        FromState: '',
-        SmsStatus: 'received',
-        FromCity: '',
-        Body: 'I need help',
-        FromCountry: 'AU',
-        To: '+61448032193',
-        ToZip: '',
-        NumSegments: '1',
-        MessageSid: 'SMdb07337513b4f2d7933eda58eaffd0d6',
-        AccountSid: 'AC22458b497113eec0a935a684af68ab28',
-        From: '+61444888000',
-        ApiVersion: '2010-04-01'
-      }
-
-      const response = await api.patch('/notifications/receiveSMS', sms)
-      expect(response.status).toBe(400)
-    }
-    catch (error) {
-      expect(error).toBeTruthy()
-      expect(error.response.status).toBe(400)
     }
   })
 })
