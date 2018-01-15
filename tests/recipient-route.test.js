@@ -146,13 +146,29 @@ describe('Update a recipient', () => {
     try {
       const attributes = {
         firstName: 'Amadeus',
-        lastName: 'Cho'
+        lastName: 'Cho',
+        nationality: 'Philippines'
       }
       const response = await api.patch(`/recipients/${recipientId}`, attributes)
       expect(response.status).toBe(200)
       expect(response.data._id).toEqual(recipientId)
       expect(response.data.firstName).toEqual(attributes.firstName)
       expect(response.data.lastName).toEqual(attributes.lastName)
+    } catch (error) {
+      expect(error).toBeFalsy()
+    }
+  })
+})
+
+describe('Search recipients by nationality', () => {
+  test('It should get recipients with the specified nationality', async () => {
+    try {
+      const attributes = {
+        nationality: ['Australia', 'Philippines']
+      }
+      const response = await api.get('/recipients', attributes)
+      expect(response.status).toBe(200)
+      expect(response.data.length).toEqual(3)
     } catch (error) {
       expect(error).toBeFalsy()
     }
