@@ -111,7 +111,8 @@ describe('Update a recipient', () => {
     try {
       const attributes = {
         firstName: 'Amadeus',
-        lastName: 'Cho'
+        lastName: 'Cho',
+        nationality: 'Philippines'
       }
       const data = await Recipient.findByIdAndUpdate(id, attributes, {
         new: true,
@@ -119,6 +120,21 @@ describe('Update a recipient', () => {
       })
       const updatedData = await Recipient.findById(data._id)
       expect(updatedData).toEqual(data)
+    } catch (error) {
+      expect(error).toBeFalsy()
+    }
+  })
+})
+
+describe('Search recipients by nationality', () => {
+  test('It should get recipients with the specified nationality', async () => {
+    try {
+      const attributes = {
+        nationality: ['Australia', 'Philippines']
+      }
+      const data = await Recipient.find({nationality: attributes.nationality})
+      expect(data).not.toBeNull()
+      expect(data.length).toEqual(3)
     } catch (error) {
       expect(error).toBeFalsy()
     }
