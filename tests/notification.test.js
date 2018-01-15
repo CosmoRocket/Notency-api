@@ -8,7 +8,7 @@ let notificationId2 = ''
 let notificationId3 = ''
 
 const recipient = {
-  recipientId: '201812345678',
+  idNo: '201812345678',
   firstName: 'John',
   lastName: 'Smith',
   mobile: '+61444888000',
@@ -17,34 +17,34 @@ const recipient = {
 }
 
 const attributes1 = {
-  code: 'EARTHQUAKE1',
+  code: 'EQ1',
   subject: 'Earthquake at Melbourne',
   body: 'This is to inform all Students that there has been an Earthquake at Melbourne. Please reply "EARTHQUAKE1 OK" if you are safe.',
 }
 
 const attributes2 = {
-  code: 'TSUNAMI1',
+  code: 'TS1',
   subject: 'Tsunami at Sydney Harbour',
   body: 'This is to inform all Students that there has been a Tsunami at Sydney Harbour. Please reply "TSUNAMI1 OK" if you are safe.',
 }
 
 const attributes3 = {
-  code: 'FRANCETERROR',
+  code: 'FR1',
   subject: 'Terror Attack in France',
   body: 'This is to inform all Students that there has been a Terror Attack in France. Please reply "FRANCETERROR OK" if you are safe.',
 }
 
 const response1 = {
-  recipientId: '',
-  body: 'EARTHQUAKE1 OK'
+  sender: '',
+  body: 'EQ1 OK'
 }
 const response2 = {
-  recipientId: '',
-  body: 'TSUNAMI1 OK'
+  sender: '',
+  body: 'TS1 OK'
 }
 const response3 = {
-  recipientId: '',
-  body: 'FRANCETERROR OK'
+  sender: '',
+  body: 'FR1 OK'
 }
 
 
@@ -139,7 +139,7 @@ describe('Update a notification', () => {
   test('It should update a specific notification', async () => {
     try {
       const attributes = {
-        code: 'EARTHQUAKE2',
+        code: 'EQ2',
         subject: '2nd Earthquake at Melbourne',
         body: 'This is to inform all Students that there has been a 2nd Earthquake at Melbourne. Please reply "EARTHQUAKE2 OK" if you are safe.',
       }
@@ -158,7 +158,7 @@ describe('Update a notification', () => {
 describe('Create response message for Notification 1', () => {
   test('It should create a new message', async () => {
     try {
-      response1.recipientId = recipientId
+      response1.sender = recipientId
       const msg = await Message.create(response1)
       // Set id of first message to be searched later
       const messageId = msg._id
@@ -180,7 +180,7 @@ describe('Create response message for Notification 1', () => {
 describe('Create response message for Notification 2', () => {
   test('It should create a new message', async () => {
     try {
-      response2.recipientId = recipientId
+      response2.sender = recipientId
       const msg = await Message.create(response2)
       // Set id of first message to be searched later
       const messageId = msg._id
@@ -202,7 +202,7 @@ describe('Create response message for Notification 2', () => {
 describe('Create response message for Notification 3', () => {
   test('It should create a new message', async () => {
     try {
-      response3.recipientId = recipientId
+      response3.sender = recipientId
       const msg = await Message.create(response3)
       // Set id of first message to be searched later
       const messageId = msg._id
