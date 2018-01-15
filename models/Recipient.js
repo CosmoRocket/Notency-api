@@ -6,7 +6,7 @@ const Schema = mongoose.Schema
 
 /*
 Recipient Model
-Recipient ID - Unique - (Student ID or Teacher ID) e.g. 201812345678
+ID Number - Unique - (Student ID or Teacher ID) e.g. 201812345678
 First Name - e.g. John
 Last Name - e.g. Smith
 Mobile - Unique - e.g. +61444888000
@@ -14,7 +14,7 @@ Email - Unique - e.g. somone@example.com
 Nationality - e.g. Australia
 */
 const recipientSchema = new Schema({
-  recipientId: { type: String, required: true, unique: true }, // Recipient ID - Unique - (Student ID or Teacher ID) e.g. 201812345678
+  idNo: { type: String, required: true, unique: true }, // ID Number - Unique - (Student ID or Teacher ID) e.g. 201812345678
   firstName: { type: String }, // First Name - e.g. John
   lastName: { type: String }, // Last Name - e.g. Smith
   mobile: { type: String, unique: true }, // Mobile - Unique - e.g. +61444888000
