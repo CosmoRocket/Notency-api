@@ -3,6 +3,7 @@ const Notification = require('../models/Notification')
 const Recipient = require('../models/Recipient')
 const Message = require('../models/Message')
 const messageParser = require('../helper/message-parser')
+const twilio = require('./twilio')
 
 /*
 *  Receive SMS message
@@ -51,8 +52,40 @@ const receiveSms = async (req, res, next) => {
   }
 }
 
+/*
+*  Send SMS message
+*/
+// $FlowFixMe - Turn off type annotations
+const sendSms = async (req, res, next) => {
+  try {
+    const attributes = req.body
+    const data = await twilio.sendSMS(attributes.recipient, attributes.message)
+    res.status(201).json(data)
+  }
+  catch(error) {
+    next(error)
+  }
+}
+
+/*
+*  Send SMS message
+*/
+// $FlowFixMe - Turn off type annotations
+const sendGroupSms = async (req, res, next) => {
+  try {
+    const attributes = req.body
+    const data = await twilio.sendGroupSMS(attributes.recipients, attributes.message)
+    res.status(201).json(data)
+  }
+  catch(error) {
+    next(error)
+  }
+}
+
 module.exports = {
-  receiveSms
+  receiveSms,
+  sendSms,
+  sendGroupSms
 }
 
 // const receiveSms = (req, res, next) => {
