@@ -77,7 +77,7 @@ const signJWTForUser = (req, res) => {
     jwtSecret,
     {
       algorithm: jwtAlgorithm,
-      expiresIn: jwtExpiresIn,
+      // expiresIn: jwtExpiresIn, // Remove Expiration
       subject: user._id.toString()
     }
   )
