@@ -17,14 +17,14 @@ const setToken = token => {
   }
 }
 
-let recipientId = ''
+let sender = ''
 let messageId = ''
 const user = {
   username: 'admin',
   password: 'password123'
 }
 const recipient = {
-  recipientId: '201812345678',
+  idNo: '201812345678',
   firstName: 'John',
   lastName: 'Smith',
   mobile: '+61444888000',
@@ -32,15 +32,15 @@ const recipient = {
   nationality: 'Australia'
 }
 const attributes1 = {
-  recipientId: '',
+  sender: '',
   body: 'Test Message Body 1'
 }
 const attributes2 = {
-  recipientId: '',
+  sender: '',
   body: 'Test Message Body 2'
 }
 const attributes3 = {
-  recipientId: '',
+  sender: '',
   body: 'Test Message Body 3'
 }
 
@@ -73,8 +73,8 @@ describe('Create a recipient', () => {
     try {
       const response = await api.post('/recipients', recipient)
       expect(response.status).toBe(201)
-      // Set this user as the id to be checked later on
-      recipientId = response.data._id
+      // Set this recipient as the sender
+      sender = response.data._id
     } catch (error) {
       expect(error).toBeFalsy()
     }
@@ -84,7 +84,7 @@ describe('Create a recipient', () => {
 describe('Create a message', () => {
   test('It should create a new message', async () => {
     try {
-      attributes1.recipientId = recipientId
+      attributes1.sender = sender
       const response = await api.post('/messages', attributes1)
       expect(response.status).toBe(201)
       // Set this user as the id to be checked later on
@@ -98,7 +98,7 @@ describe('Create a message', () => {
 describe('Create a second message', () => {
   test('It should create a new message', async () => {
     try {
-      attributes2.recipientId = recipientId
+      attributes2.sender = sender
       const response = await api.post('/messages', attributes2)
       expect(response.status).toBe(201)
       // Set this user as the id to be checked later on
@@ -112,7 +112,7 @@ describe('Create a second message', () => {
 describe('Create a third message', () => {
   test('It should create a new message', async () => {
     try {
-      attributes3.recipientId = recipientId
+      attributes3.sender = sender
       const response = await api.post('/messages', attributes3)
       expect(response.status).toBe(201)
       // Set this user as the id to be checked later on
@@ -126,7 +126,7 @@ describe('Create a third message', () => {
 describe('Create a duplicate message', () => {
   test('It should allow creation of duplicate messages', async () => {
     try {
-      attributes1.recipientId = recipientId
+      attributes1.sender = sender
       const response = await api.post('/messages', attributes1)
       expect(response.status).toBe(201)
       // Set this user as the id to be checked later on

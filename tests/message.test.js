@@ -1,10 +1,10 @@
 /* @flow */
 const Recipient = require('../models/Recipient')
 const Message = require('../models/Message')
-let recipientId = ''
+let sender = ''
 let messageId = ''
 const recipient = {
-  recipientId: '201812345678',
+  idNo: '201812345678',
   firstName: 'John',
   lastName: 'Smith',
   mobile: '+61444888000',
@@ -12,15 +12,15 @@ const recipient = {
   nationality: 'Australia'
 }
 const attributes1 = {
-  recipientId: '',
+  sender: '',
   body: 'Test Message Body 1'
 }
 const attributes2 = {
-  recipientId: '',
+  sender: '',
   body: 'Test Message Body 2'
 }
 const attributes3 = {
-  recipientId: '',
+  sender: '',
   body: 'Test Message Body 3'
 }
 
@@ -39,8 +39,8 @@ describe('Create a recipient', () => {
   test('It should create a new recipient', async () => {
     try {
       const data = await Recipient.create(recipient)
-      // Set id of recipient to be searched later
-      recipientId = data._id
+      // Set this recipient as the sender
+      sender = data._id
       expect(data._id).not.toBeNull()
     } catch (error) {
       expect(error).toBeFalsy()
@@ -51,7 +51,7 @@ describe('Create a recipient', () => {
 describe('Create first message', () => {
   test('It should create a new message', async () => {
     try {
-      attributes1.recipientId = recipientId
+      attributes1.sender = sender
       const data = await Message.create(attributes1)
       // Set id of first message to be searched later
       messageId = data._id
@@ -65,7 +65,7 @@ describe('Create first message', () => {
 describe('Create second message', () => {
   test('It should create a new message', async () => {
     try {
-      attributes2.recipientId = recipientId
+      attributes2.sender = sender
       const data = await Message.create(attributes2)
       expect(data._id).not.toBeNull()
     } catch (error) {
@@ -77,7 +77,7 @@ describe('Create second message', () => {
 describe('Create third message', () => {
   test('It should create a new message', async () => {
     try {
-      attributes3.recipientId = recipientId
+      attributes3.sender = sender
       const data = await Message.create(attributes3)
       expect(data._id).not.toBeNull()
     } catch (error) {
@@ -89,7 +89,7 @@ describe('Create third message', () => {
 describe('Create a duplicate message', () => {
   test('It should allow duplicate messages', async () => {
     try {
-      attributes1.recipientId = recipientId
+      attributes1.sender = sender
       const data = await Message.create(attributes1)
       expect(data._id).not.toBeNull()
     } catch (error) {
