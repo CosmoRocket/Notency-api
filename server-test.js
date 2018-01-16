@@ -19,6 +19,7 @@ server.use('/', [
   require('./routes/recipient'),
   require('./routes/message'),
   require('./routes/notification'),
+  require('./routes/announcement'),
   require('./routes/sms')
 ])
 
