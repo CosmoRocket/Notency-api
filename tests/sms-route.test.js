@@ -36,18 +36,24 @@ const attributes1 = {
   code: 'EQ1',
   subject: 'Earthquake at Melbourne',
   body: 'This is to inform all Students that there has been an Earthquake at Melbourne. Please reply "EARTHQUAKE1 OK" if you are safe.',
+  bodyHtml: 'This is to inform all Students that there has been an Earthquake at Melbourne. Please reply "EARTHQUAKE1 OK" if you are safe.',
+  groups: 'Australia'
 }
 
 const attributes2 = {
   code: 'TS1',
   subject: 'Tsunami at Sydney Harbour',
   body: 'This is to inform all Students that there has been a Tsunami at Sydney Harbour. Please reply "TSUNAMI1 OK" if you are safe.',
+  bodyHtml: 'This is to inform all Students that there has been an Earthquake at Melbourne. Please reply "EARTHQUAKE1 OK" if you are safe.',
+  groups: 'Australia'
 }
 
 const attributes3 = {
   code: 'FR1',
   subject: 'Terror Attack in France',
   body: 'This is to inform all Students that there has been a Terror Attack in France. Please reply "FRANCETERROR OK" if you are safe.',
+  bodyHtml: 'This is to inform all Students that there has been an Earthquake at Melbourne. Please reply "EARTHQUAKE1 OK" if you are safe.',
+  groups: 'France'
 }
 
 beforeAll(async () => {

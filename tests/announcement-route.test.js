@@ -3,7 +3,7 @@ const axios = require('axios')
 const User = require('../models/User')
 const Recipient = require('../models/Recipient')
 const Message = require('../models/Message')
-const Notification = require('../models/Notification')
+const Announcement = require('../models/Announcement')
 const api = axios.create({
   baseURL: 'http://localhost:7001', // Test Server
 })
@@ -17,9 +17,9 @@ const getToken = () => {
 
 let recipientId = ''
 let recipientObj = ''
-let notificationId1 = ''
-let notificationId2 = ''
-let notificationId3 = ''
+let announcementId1 = ''
+let announcementId2 = ''
+let announcementId3 = ''
 const user = {
   username: 'admin',
   password: 'password123'
@@ -34,27 +34,21 @@ const recipient = {
 }
 
 const attributes1 = {
-  code: 'EQ1',
   subject: 'Earthquake at Melbourne',
-  body: 'This is to inform all Students that there has been an Earthquake at Melbourne. Please reply "EARTHQUAKE1 OK" if you are safe.',
   bodyHtml: 'This is to inform all Students that there has been an Earthquake at Melbourne. Please reply "EARTHQUAKE1 OK" if you are safe.',
   groups: 'Australia',
   recipients: []
 }
 
 const attributes2 = {
-  code: 'TS1',
   subject: 'Tsunami at Sydney Harbour',
-  body: 'This is to inform all Students that there has been a Tsunami at Sydney Harbour. Please reply "TSUNAMI1 OK" if you are safe.',
   bodyHtml: 'This is to inform all Students that there has been a Tsunami at Sydney Harbour. Please reply "TSUNAMI1 OK" if you are safe.',
   groups: 'Australia',
   recipients: []
 }
 
 const attributes3 = {
-  code: 'FR1',
   subject: 'Terror Attack in France',
-  body: 'This is to inform all Students that there has been a Terror Attack in France. Please reply "FRANCETERROR OK" if you are safe.',
   bodyHtml: 'This is to inform all Students that there has been a Terror Attack in France. Please reply "FRANCETERROR OK" if you are safe.',
   groups: 'France',
   recipients: []
@@ -62,7 +56,7 @@ const attributes3 = {
 
 beforeAll(async () => {
   try {
-    await Notification.deleteMany()
+    await Announcement.deleteMany()
     await Recipient.deleteMany()
     await Message.deleteMany()
     await User.deleteMany()
@@ -95,52 +89,52 @@ describe('Create a recipient', () => {
   })
 })
 
-describe('Create a notification', () => {
-  test('It should create a new notification', async () => {
+describe('Create a announcement', () => {
+  test('It should create a new announcement', async () => {
     try {
       attributes1.recipients = [recipientObj]
-      const response = await api.post('/notifications', attributes1)
+      const response = await api.post('/announcements', attributes1)
       expect(response.status).toBe(201)
       // Set this user as the id to be checked later on
-      notificationId1 = response.data._id
+      announcementId1 = response.data._id
     } catch (error) {
       expect(error).toBeFalsy()
     }
   })
 })
 
-describe('Create a second notification', () => {
-  test('It should create a new notification', async () => {
+describe('Create a second announcement', () => {
+  test('It should create a new announcement', async () => {
     try {
       attributes2.recipients = [recipientObj]
-      const response = await api.post('/notifications', attributes2)
+      const response = await api.post('/announcements', attributes2)
       expect(response.status).toBe(201)
       // Set this user as the id to be checked later on
-      notificationId2 = response.data._id
+      announcementId2 = response.data._id
     } catch (error) {
       expect(error).toBeFalsy()
     }
   })
 })
 
-describe('Create a third notification', () => {
-  test('It should create a new notification', async () => {
+describe('Create a third announcement', () => {
+  test('It should create a new announcement', async () => {
     try {
       attributes3.recipients = [recipientObj]
-      const response = await api.post('/notifications', attributes3)
+      const response = await api.post('/announcements', attributes3)
       expect(response.status).toBe(201)
       // Set this user as the id to be checked later on
-      notificationId3 = response.data._id
+      announcementId3 = response.data._id
     } catch (error) {
       expect(error).toBeFalsy()
     }
   })
 })
 
-describe('Create a duplicate notification', () => {
-  test('It should note create a duplicated notification', async () => {
+describe('Create a duplicate announcement', () => {
+  test('It should note create a duplicated announcement', async () => {
     try {
-      const response = await api.post('/notifications', attributes1)
+      const response = await api.post('/announcements', attributes1)
       expect('Should catch an error').toBeNull()
     } catch (error) {
       expect(error).toBeTruthy()
@@ -149,10 +143,10 @@ describe('Create a duplicate notification', () => {
   })
 })
 
-describe('Get all notifications', () => {
-  test('It should get more than one notifications', async () => {
+describe('Get all announcementss', () => {
+  test('It should get more than one announcementss', async () => {
     try {
-      const response = await api.get('/notifications')
+      const response = await api.get('/announcements')
       expect(response.status).toBe(200)
       expect(response.data.length).toBeGreaterThan(1)
     } catch (error) {
@@ -161,50 +155,50 @@ describe('Get all notifications', () => {
   })
 })
 
-describe('Get a notification by ID', () => {
-  test('It should return a specific notification', async () => {
+describe('Get a announcement by ID', () => {
+  test('It should return a specific announcement', async () => {
     try {
-      const response = await api.get(`/notifications/${notificationId1}`)
+      const response = await api.get(`/announcements/${announcementId1}`)
       expect(response.status).toBe(200)
-      expect(response.data._id).toEqual(notificationId1)
+      expect(response.data._id).toEqual(announcementId1)
     } catch (error) {
       expect(error).toBeFalsy()
     }
   })
 })
 
-describe('Update a notification', () => {
-  test('It should update a specific notification', async () => {
+describe('Update a announcement', () => {
+  test('It should update a specific announcement', async () => {
     try {
       const attributes = {
-        body: 'This is the updated notification'
+        bodyHtml: 'This is the updated announcement'
       }
-      const response = await api.patch(`/notifications/${notificationId1}`, attributes)
+      const response = await api.patch(`/announcements/${announcementId1}`, attributes)
       expect(response.status).toBe(200)
-      expect(response.data._id).toEqual(notificationId1)
-      expect(response.data.body).toEqual(attributes.body)
+      expect(response.data._id).toEqual(announcementId1)
+      expect(response.data.bodyHtml).toEqual(attributes.bodyHtml)
     } catch (error) {
       expect(error).toBeFalsy()
     }
   })
 })
 
-describe('Delete a notification by ID', () => {
-  test('It should delete a specific notification', async () => {
+describe('Delete a announcement by ID', () => {
+  test('It should delete a specific announcement', async () => {
     try {
-      const response = await api.delete(`/notifications/${notificationId1}`)
+      const response = await api.delete(`/announcements/${announcementId1}`)
       expect(response.status).toBe(200)
-      expect(response.data._id).toEqual(notificationId1)
+      expect(response.data._id).toEqual(announcementId1)
     } catch (error) {
       expect(error).toBeFalsy()
     }
   })
 })
 
-describe('Delete a notification by ID', () => {
-  test('It should delete a specific notification', async () => {
+describe('Delete a announcement by ID', () => {
+  test('It should delete a specific announcement', async () => {
     try {
-      const response = await api.delete(`/notifications/${notificationId1}`)
+      const response = await api.delete(`/announcements/${announcementId1}`)
       expect('Should catch an error').toBeNull()
     } catch (error) {
       expect(error).toBeTruthy()
@@ -218,7 +212,7 @@ afterAll(async () => {
   try {
     await Message.deleteMany()
     await Recipient.deleteMany()
-    await Notification.deleteMany()
+    await Announcement.deleteMany()
     await User.deleteMany()
     console.log('Test ended. Data deleted.')
   } catch (error) {

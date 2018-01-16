@@ -2,7 +2,7 @@
 const Recipient = require('../models/Recipient')
 const Message = require('../models/Message')
 const Announcement = require('../models/Announcement')
-let recipientId = ''
+let recipientObj = ''
 let announcementId1 = ''
 let announcementId2 = ''
 let announcementId3 = ''
@@ -18,17 +18,23 @@ const recipient = {
 
 const attributes1 = {
   subject: 'Earthquake at Melbourne',
-  body: 'This is to inform all Students that there has been an Earthquake at Melbourne. Please reply "EARTHQUAKE1 OK" if you are safe.',
+  bodyHtml: 'This is to inform all Students that there has been an Earthquake at Melbourne. Please reply "EARTHQUAKE1 OK" if you are safe.',
+  groups: 'Australia',
+  recipients: []
 }
 
 const attributes2 = {
   subject: 'Tsunami at Sydney Harbour',
-  body: 'This is to inform all Students that there has been a Tsunami at Sydney Harbour. Please reply "TSUNAMI1 OK" if you are safe.',
+  bodyHtml: 'This is to inform all Students that there has been a Tsunami at Sydney Harbour. Please reply "TSUNAMI1 OK" if you are safe.',
+  groups: 'Australia',
+  recipients: []
 }
 
 const attributes3 = {
   subject: 'Terror Attack in France',
-  body: 'This is to inform all Students that there has been a Terror Attack in France. Please reply "FRANCETERROR OK" if you are safe.',
+  bodyHtml: 'This is to inform all Students that there has been a Terror Attack in France. Please reply "FRANCETERROR OK" if you are safe.',
+  groups: 'France',
+  recipients: []
 }
 
 beforeAll(async () => {
@@ -47,8 +53,8 @@ describe('Create a recipient', () => {
   test('It should create a new recipient', async () => {
     try {
       const data = await Recipient.create(recipient)
-      // Set id of recipient to be searched later
-      recipientId = data._id
+      // Set recipient to be searched later
+      recipientObj = data
       expect(data._id).not.toBeNull()
     } catch (error) {
       expect(error).toBeFalsy()
@@ -59,6 +65,7 @@ describe('Create a recipient', () => {
 describe('Create first announcement', () => {
   test('It should create a new announcement', async() => {
     try {
+      attributes1.recipients = [recipientObj]
       const data = await Announcement.create(attributes1)
       // Set if of Announcement to be searched later
       announcementId1 = data._id
@@ -72,6 +79,7 @@ describe('Create first announcement', () => {
 describe('Create second announcement', () => {
   test('It should create a new announcement', async() => {
     try {
+      attributes2.recipients = [recipientObj]
       const data = await Announcement.create(attributes2)
       // Set if of Announcement to be searched later
       announcementId2 = data._id
@@ -85,6 +93,7 @@ describe('Create second announcement', () => {
 describe('Create third announcement', () => {
   test('It should create a new announcement', async() => {
     try {
+      attributes3.recipients = [recipientObj]
       const data = await Announcement.create(attributes3)
       // Set if of Announcement to be searched later
       announcementId3 = data._id
