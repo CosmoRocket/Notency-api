@@ -32,6 +32,6 @@
     "flow": "flow check",
     "flow-typed": "flow-typed",
     "test": "NODE_ENV=test nodemon server-test.js",
-    "jest": "NODE_ENV=test jest --watch"
+    "jest": "NODE_ENV=test jest --watch --runInBand"
   }
 }
