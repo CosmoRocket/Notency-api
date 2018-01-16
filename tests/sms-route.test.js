@@ -117,7 +117,7 @@ describe('Send a valid OK response to Notification 1', () => {
         FromState: '',
         SmsStatus: 'received',
         FromCity: '',
-        Body: 'EQ2 OK',
+        Body: 'EQ1 OK',
         FromCountry: 'AU',
         To: '+61448032193',
         ToZip: '',
@@ -132,6 +132,7 @@ describe('Send a valid OK response to Notification 1', () => {
       expect(response.status).toBe(200)
     }
     catch (error) {
+      console.error(error)
       expect(error).toBeFalsy()
     }
   })
@@ -151,7 +152,7 @@ describe('Send an invalid response to Notification 1', () => {
         FromState: '',
         SmsStatus: 'received',
         FromCity: '',
-        Body: 'EQ2OK',
+        Body: 'EQ1OK',
         FromCountry: 'AU',
         To: '+61448032193',
         ToZip: '',
@@ -186,7 +187,7 @@ describe('Send a valid Not OK response to Notification 1', () => {
         FromState: '',
         SmsStatus: 'received',
         FromCity: '',
-        Body: 'EQ2 I need help',
+        Body: 'EQ1 I need help',
         FromCountry: 'AU',
         To: '+61448032193',
         ToZip: '',
@@ -237,6 +238,76 @@ describe('Send an invalid Not OK response to Notification 1', () => {
     catch (error) {
       expect(error).toBeTruthy()
       expect(error.response.data).toEqual('Invalid response message')
+    }
+  })
+})
+
+describe('Send with an invalid sender', () => {
+  test('It should throw an Invalid response message error', async () => {
+    try {
+      const email = {
+        ToCountry: 'AU',
+        ToState: '',
+        SmsMessageSid: 'SMdb07337513b4f2d7933eda58eaffd0d6',
+        NumMedia: '0',
+        ToCity: '',
+        FromZip: '',
+        SmsSid: 'SMdb07337513b4f2d7933eda58eaffd0d6',
+        FromState: '',
+        SmsStatus: 'received',
+        FromCity: '',
+        Body: 'EQ1 OK',
+        FromCountry: 'AU',
+        To: '+61448032999',
+        ToZip: '',
+        NumSegments: '1',
+        MessageSid: 'SMdb07337513b4f2d7933eda58eaffd0d6',
+        AccountSid: 'AC22458b497113eec0a935a684af68ab28',
+        From: '+61444888099',
+        ApiVersion: '2010-04-01'
+      }
+
+      const response = await api.patch('/sms/receive', email)
+      expect('Should catch an error').toBeNull()
+    }
+    catch (error) {
+      expect(error).toBeTruthy()
+      expect(error.response.data).toEqual('Invalid sender')
+    }
+  })
+})
+
+describe('Send with an invalid notification code', () => {
+  test('It should throw an Invalid response message error', async () => {
+    try {
+      const email = {
+        ToCountry: 'AU',
+        ToState: '',
+        SmsMessageSid: 'SMdb07337513b4f2d7933eda58eaffd0d6',
+        NumMedia: '0',
+        ToCity: '',
+        FromZip: '',
+        SmsSid: 'SMdb07337513b4f2d7933eda58eaffd0d6',
+        FromState: '',
+        SmsStatus: 'received',
+        FromCity: '',
+        Body: 'EQ5 OK',
+        FromCountry: 'AU',
+        To: '+61448032193',
+        ToZip: '',
+        NumSegments: '1',
+        MessageSid: 'SMdb07337513b4f2d7933eda58eaffd0d6',
+        AccountSid: 'AC22458b497113eec0a935a684af68ab28',
+        From: '+61444888000',
+        ApiVersion: '2010-04-01'
+      }
+
+      const response = await api.patch('/sms/receive', email)
+      expect('Should catch an error').toBeNull()
+    }
+    catch (error) {
+      expect(error).toBeTruthy()
+      expect(error.response.data).toEqual('Invalid notification code')
     }
   })
 })
