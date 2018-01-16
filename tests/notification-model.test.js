@@ -77,7 +77,7 @@ describe('Create first notification', () => {
   test('It should create a new notification', async() => {
     try {
       const data = await Notification.create(attributes1)
-      // Set if od notification to be searched later
+      // Set if of notification to be searched later
       notificationId1 = data._id
     }
     catch (error) {
@@ -90,7 +90,7 @@ describe('Create second notification', () => {
   test('It should create a new notification', async() => {
     try {
       const data = await Notification.create(attributes2)
-      // Set if od notification to be searched later
+      // Set if of notification to be searched later
       notificationId2 = data._id
     }
     catch (error) {
@@ -103,7 +103,7 @@ describe('Create third notification', () => {
   test('It should create a new notification', async() => {
     try {
       const data = await Notification.create(attributes3)
-      // Set if od notification to be searched later
+      // Set if of notification to be searched later
       notificationId3 = data._id
     }
     catch (error) {
