@@ -185,7 +185,7 @@ describe('Deleted message should can no longer be queried', () => {
   test('It should not find the deleted message', async () => {
     try {
       const response = await api.get(`/messages/${messageId}`)
-      expect(response.status).toBe(404)
+      expect('Should catch an error').toBeNull()
     } catch (error) {
       expect(error).toBeTruthy()
       expect(error.response.status).toBe(404)

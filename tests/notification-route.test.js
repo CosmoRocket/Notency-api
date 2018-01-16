@@ -127,7 +127,7 @@ describe('Create a duplicate notification', () => {
   test('It should note create a duplicated notification', async () => {
     try {
       const response = await api.post('/notifications', attributes1)
-      expect(response.status).toBe(400)
+      expect('Should catch an error').toBeNull()
     } catch (error) {
       expect(error).toBeTruthy()
       expect(error.response.status).toBe(400)
@@ -191,7 +191,7 @@ describe('Delete a notification by ID', () => {
   test('It should delete a specific notification', async () => {
     try {
       const response = await api.delete(`/notifications/${notificationId1}`)
-      expect(response.status).toBe(404)
+      expect('Should catch an error').toBeNull()
     } catch (error) {
       expect(error).toBeTruthy()
       expect(error.response.status).toBe(404)
