@@ -19,34 +19,38 @@ const receiveSms = async (req, res) => {
     // Get Sender as a Recipient using a Mobile number
     const sender = await Recipient.findOne({ mobile: mobile })
 
-    // Create a Message based on the JSON
-    const messageAttribute = {
-      sender: sender,
-      body: body
-    }
-
-    // Parse code from message body
-    const code = messageParser.isValidResponse(body)
-      ? messageParser.parseCodeFromMessage(body)
-      : ''
-    if (!code) throw new Error('Invalid response message')
+    if (!sender) throw new Error('Invalid sender')
     else {
-      // Create the response as a Message object
-      const responseMessage = await Message.create(messageAttribute)
+      // Create a Message based on the JSON
+      const messageAttribute = {
+        sender: sender,
+        body: body
+      }
 
-      // Update the notification and append the response
-      const notification = await Notification.findOneAndUpdate(
-        { code: code },
-        { $addToSet: { responses: responseMessage } },
-        { upsert: true, new: true, runValidators: true }
-      ).populate({
-        path: 'responses',
-        populate: {
-          path: 'sender',
-          model: 'Recipient'
-        }
-      })
-      res.status(200).json(notification)
+      // Parse code from message body
+      const code = messageParser.isValidResponse(body)
+        ? messageParser.parseCodeFromMessage(body)
+        : ''
+      if (!code) throw new Error('Invalid response message')
+      else {
+        // Create the response as a Message object
+        const responseMessage = await Message.create(messageAttribute)
+
+        // Update the notification and append the response
+        const notification = await Notification.findOneAndUpdate(
+          { code: code },
+          { $addToSet: { responses: responseMessage } },
+          { upsert: false, new: true, runValidators: true }
+        ).populate({
+          path: 'responses',
+          populate: {
+            path: 'sender',
+            model: 'Recipient'
+          }
+        })
+        if (!notification) throw new Error('Invalid notification code')
+        else res.status(200).json(notification)
+      }
     }
   } catch (error) {
     res.status(400).json(error.message)
