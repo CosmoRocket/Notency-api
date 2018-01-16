@@ -1,0 +1,22 @@
+/* @flow */
+// Choose a different environment, if it's a test
+const mongoose =
+  process.env.NODE_ENV === 'test' ? require('./init-test') : require('./init')
+const Schema = mongoose.Schema
+
+/*
+Announcement Model
+Subject - Unique - e.g. Earthquake at Melbourne, Tsunami at Sydney Harbour, Terror Attack in France
+Body - Character Limit? - e.g. This is to inform all Students that there has been an Earthquake at Melbourne. Please reply "EARTHQUAKE1 OK" if you are safe.
+Recipients = Array of Recipient [Recipient]
+*/
+const announcementSchema = new Schema({
+  subject: { type: String, required: true, unique: true },
+  body: { type: String, required: true },
+  recipients: [{ type: Schema.ObjectId, ref: 'Recipient', default: [] }],
+  createdAt: { type: Date, default: Date.now }
+})
+
+const Announcement = mongoose.model('Announcement', announcementSchema)
+
+module.exports = Announcement
