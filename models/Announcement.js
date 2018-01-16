@@ -14,8 +14,8 @@ Recipients = Array of Recipient [Recipient]
 const announcementSchema = new Schema({
   subject: { type: String, required: true, unique: true },
   bodyHtml: { type: String, required: true },
-  groups: { type: String, required: true },
-  recipients: [{ type: Schema.ObjectId, ref: 'Recipient', default: [] }],
+  groups: { type: Array, default: [], required: true },
+  recipients: [{ type: Schema.ObjectId, ref: 'Recipient', default: [], required: true }],
   createdAt: { type: Date, default: Date.now }
 })
 

@@ -36,21 +36,21 @@ const recipient = {
 const attributes1 = {
   subject: 'Earthquake at Melbourne',
   bodyHtml: 'This is to inform all Students that there has been an Earthquake at Melbourne. Please reply "EARTHQUAKE1 OK" if you are safe.',
-  groups: 'Australia',
+  groups: [{name: "nationality", item: "Australia"}],
   recipients: []
 }
 
 const attributes2 = {
   subject: 'Tsunami at Sydney Harbour',
   bodyHtml: 'This is to inform all Students that there has been a Tsunami at Sydney Harbour. Please reply "TSUNAMI1 OK" if you are safe.',
-  groups: 'Australia',
+  groups: [{name: "nationality", item: "Australia"}],
   recipients: []
 }
 
 const attributes3 = {
   subject: 'Terror Attack in France',
   bodyHtml: 'This is to inform all Students that there has been a Terror Attack in France. Please reply "FRANCETERROR OK" if you are safe.',
-  groups: 'France',
+  groups: [{name: "nationality", item: "France"}],
   recipients: []
 }
 

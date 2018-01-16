@@ -12,7 +12,7 @@ const setToken = token => {
   api.defaults.headers.common['Authorization'] = `Bearer ${token}`
 }
 const getToken = () => {
-  return api.defaults.headers.common['Authorization'] 
+  return api.defaults.headers.common['Authorization']
 }
 
 let recipientId = ''
@@ -37,7 +37,7 @@ const attributes1 = {
   subject: 'Earthquake at Melbourne',
   body: 'This is to inform all Students that there has been an Earthquake at Melbourne. Please reply "EARTHQUAKE1 OK" if you are safe.',
   bodyHtml: 'This is to inform all Students that there has been an Earthquake at Melbourne. Please reply "EARTHQUAKE1 OK" if you are safe.',
-  groups: 'Australia'
+  groups: [{ name: "nationality", item: "Australia" }]
 }
 
 const attributes2 = {
@@ -45,7 +45,7 @@ const attributes2 = {
   subject: 'Tsunami at Sydney Harbour',
   body: 'This is to inform all Students that there has been a Tsunami at Sydney Harbour. Please reply "TSUNAMI1 OK" if you are safe.',
   bodyHtml: 'This is to inform all Students that there has been an Earthquake at Melbourne. Please reply "EARTHQUAKE1 OK" if you are safe.',
-  groups: 'Australia'
+  groups: [{ name: "nationality", item: "Australia" }]
 }
 
 const attributes3 = {
@@ -53,7 +53,7 @@ const attributes3 = {
   subject: 'Terror Attack in France',
   body: 'This is to inform all Students that there has been a Terror Attack in France. Please reply "FRANCETERROR OK" if you are safe.',
   bodyHtml: 'This is to inform all Students that there has been an Earthquake at Melbourne. Please reply "EARTHQUAKE1 OK" if you are safe.',
-  groups: 'France'
+  groups: [{ name: "nationality", item: "Australia" }]
 }
 
 beforeAll(async () => {
@@ -64,7 +64,7 @@ beforeAll(async () => {
     await User.deleteMany()
     console.log('Test started. Data deleted.')
     // Create a User
-    while(!getToken()) {
+    while (!getToken()) {
       const response = await api.post('/auth/register', user)
       const token = response.data.token
       if (token) {
@@ -324,7 +324,7 @@ describe('Send a Group SMS message with unverified numbers', () => {
   test('It should not send a text message', async () => {
     try {
       const attributes = {
-        recipients: ['+61456360647','+61456360648','+61456360649'],
+        recipients: ['+61456360647', '+61456360648', '+61456360649'],
         message: 'This is a test announcement!!'
       }
       const response = await api.post('/sms/groupSend', attributes)
