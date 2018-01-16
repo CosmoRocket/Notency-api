@@ -101,7 +101,7 @@ describe('Create a duplicate recipient', () => {
   test('It should not create a duplicate recipient', async () => {
     try {
       const response = await api.post('/recipients', attributes1)
-      expect(response.status).toBe(400)
+      expect('Should catch an error').toBeNull()
     } catch (error) {
       expect(error).toBeTruthy()
       expect(error.response.status).toBe(400)
@@ -183,7 +183,7 @@ describe('Deleted recipient should can no longer be queried', () => {
   test('It should not find the deleted recipient', async () => {
     try {
       const response = await api.get(`/recipients/${recipientId}`)
-      expect(response.status).toBe(404)
+      expect('Should catch an error').toBeNull()
     } catch (error) {
       expect(error).toBeTruthy()
       expect(error.response.status).toBe(404)

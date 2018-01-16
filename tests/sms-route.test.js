@@ -157,11 +157,11 @@ describe('Send an invalid response to Notification 1', () => {
       }
 
       const response = await api.patch('/sms/receive', sms)
-      expect(response.status).toBe(200)
+      expect('Should catch an error').toBeNull()
     }
     catch (error) {
       expect(error).toBeTruthy()
-      expect(error.message).toBe('Invalid response message')
+      expect(error.response.data).toEqual('Invalid response message')
     }
   })
 })
@@ -226,11 +226,11 @@ describe('Send an invalid Not OK response to Notification 1', () => {
       }
 
       const response = await api.patch('/sms/receive', sms)
-      expect(response.status).toBe(200)
+      expect('Should catch an error').toBeNull()
     }
     catch (error) {
       expect(error).toBeTruthy()
-      expect(error.message).toBe('Invalid response message')
+      expect(error.response.data).toEqual('Invalid response message')
     }
   })
 })
@@ -258,8 +258,10 @@ describe('Send a SMS message with unverified number', () => {
         message: 'This is a test announcement!!'
       }
       const response = await api.post('/sms/send', attributes)
+      expect('Should catch an error').toBeNull()
     } catch (error) {
-      expect(error.message).toEqual('The number +61456360647 is unverified. Trial accounts cannot send messages to unverified numbers; verify +61456360647 at twilio.com/user/account/phone-numbers/verified, or purchase a Twilio number to send messages to unverified numbers.')
+      expect(error).toBeTruthy()
+      expect(error.response.data).toEqual('The number +61456360647 is unverified. Trial accounts cannot send messages to unverified numbers; verify +61456360647 at twilio.com/user/account/phone-numbers/verified, or purchase a Twilio number to send messages to unverified numbers.')
     }
   })
 })
@@ -272,9 +274,10 @@ describe('Send a SMS message with empty recipient', () => {
         message: 'This is a test announcement!!'
       }
       const response = await api.post('/sms/send', attributes)
+      expect('Should catch an error').toBeNull()
     } catch (error) {
       expect(error).toBeTruthy()
-      expect(error.message).toEqual('Invalid SMS')
+      expect(error.response.data).toEqual('Invalid SMS')
     }
   })
 })
@@ -287,9 +290,10 @@ describe('Send a SMS message with empty body', () => {
         message: ''
       }
       const response = await api.post('/sms/send', attributes)
+      expect('Should catch an error').toBeNull()
     } catch (error) {
       expect(error).toBeTruthy()
-      expect(error.message).toEqual('Invalid SMS')
+      expect(error.response.data).toEqual('Invalid SMS')
     }
   })
 })
@@ -302,9 +306,10 @@ describe('Send a SMS message with empty body and recipient', () => {
         message: ''
       }
       const response = await api.post('/sms/send', attributes)
+      expect('Should catch an error').toBeNull()
     } catch (error) {
       expect(error).toBeTruthy()
-      expect(error.message).toEqual('Invalid SMS')
+      expect(error.response.data).toEqual('Invalid SMS')
     }
   })
 })
