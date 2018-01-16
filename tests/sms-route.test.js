@@ -312,15 +312,15 @@ describe('Send with an invalid notification code', () => {
   })
 })
 
-// describe('Send a SMS message', () => {
+// describe.only('Send a SMS message', () => {
 //   test('It should send a text message', async () => {
 //     try {
 //       const attributes = {
-//         recipient: "+61456360647",
+//         recipient: "+61456360xxx",
 //         message: "This is a test announcement!!"
 //       }
 //       const response = await api.post('/sms/send', attributes)
-//       expect(response.data.error.message).toBeNull()
+//       expect(response.status).toBe(201)
 //     } catch (error) {
 //       expect(error).toBeFalsy()
 //     }
