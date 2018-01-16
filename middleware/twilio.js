@@ -11,7 +11,7 @@ const sendSMS = (to, body) => {
   const client = new twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
 
   return new Promise((success, fail) => {
-    if(!to || !body) fail(new Error('Invalid SMS'))
+    if(!to || !body) throw new Error('Invalid SMS')
     else {
       // Send the text message.
       client.messages.create(
