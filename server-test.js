@@ -20,7 +20,8 @@ server.use('/', [
   require('./routes/message'),
   require('./routes/notification'),
   require('./routes/announcement'),
-  require('./routes/sms')
+  require('./routes/sms'),
+  require('./routes/email')
 ])
 
 // Error handler
