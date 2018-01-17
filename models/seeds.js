@@ -1,13 +1,16 @@
 /* @flow */
 const Recipient = require('./Recipient')
+const moment = require('moment')
 
 Recipient.create({
-  recipientId: '201812345678',
+  idNo: '201812345678',
   firstName: 'John',
   lastName: 'Smith',
+  role: 'Student',
   mobile: '+61444888000',
   email: 'somone@example.com',
-  nationality: 'Australia'
+  nationality: 'Australia',
+  graduationDate: moment.utc('31/12/2018', 'DD/MM/YYYY', true)
 })
   .then(recipients => {
     console.log('Created recipients', recipients)
