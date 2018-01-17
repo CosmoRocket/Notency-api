@@ -23,7 +23,7 @@ const recipientSchema = new Schema({
   mobile: { type: String, unique: true }, // Mobile - Unique - e.g. +61444888000
   email: { type: String, unique: true }, // Email - Unique - e.g. somone@example.com
   nationality: { type: String }, // Nationality - e.g. Australia
-  grduationDate: { type: Date } // Graduation Date - e.g. 12/31/2018
+  graduationDate: { type: Date } // Graduation Date - e.g. 12/31/2018
 })
 
 const Recipient = mongoose.model('Recipient', recipientSchema)
