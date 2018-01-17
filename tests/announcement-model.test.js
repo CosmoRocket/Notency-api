@@ -37,6 +37,38 @@ const attributes3 = {
   recipients: []
 }
 
+const attributes4 = {
+  subject: 'Test Notification 4',
+  bodyHtml: 'This is a test Notification',
+  groups: [{ name: "nationality", item: "France" }],
+  recipients: []
+}
+
+const attributes5 = {
+  subject: 'Test Notification 5',
+  bodyHtml: 'This is a test Notification',
+  groups: [{ name: "nationality", item: "Philippines" }],
+  recipients: []
+}
+
+const tenDaysAgo = new Date(new Date().setDate(new Date().getDate() - 10))
+
+const attributes6 = {
+  subject: 'Test Notification 6',
+  bodyHtml: 'This is a test Notification',
+  groups: [{ name: "nationality", item: "Hong Kong" }],
+  recipients: [],
+  createdAt: tenDaysAgo
+}
+
+const attributes7 = {
+  subject: 'Test Notification 7',
+  bodyHtml: 'This is a test Notification',
+  groups: [{ name: "nationality", item: "Hong Kong" }],
+  recipients: [],
+  createdAt: tenDaysAgo
+}
+
 beforeAll(async () => {
   console.log('Test started.')
   try {
@@ -69,6 +101,7 @@ describe('Create first announcement', () => {
       const data = await Announcement.create(attributes1)
       // Set if of Announcement to be searched later
       announcementId1 = data._id
+      expect(data).not.toBeNull()
     }
     catch (error) {
       expect(error).toBeFalsy()
@@ -83,6 +116,7 @@ describe('Create second announcement', () => {
       const data = await Announcement.create(attributes2)
       // Set if of Announcement to be searched later
       announcementId2 = data._id
+      expect(data).not.toBeNull()
     }
     catch (error) {
       expect(error).toBeFalsy()
@@ -97,6 +131,25 @@ describe('Create third announcement', () => {
       const data = await Announcement.create(attributes3)
       // Set if of Announcement to be searched later
       announcementId3 = data._id
+      expect(data).not.toBeNull()
+    }
+    catch (error) {
+      expect(error).toBeFalsy()
+    }
+  })
+})
+
+describe('Create more announcements', () => {
+  test('It should create new announcements', async() => {
+    try {
+      attributes4.recipients = [recipientObj]
+      attributes5.recipients = [recipientObj]
+      attributes6.recipients = [recipientObj]
+      attributes7.recipients = [recipientObj]
+      const data = await Announcement.create([attributes4, attributes5, attributes6, attributes7])
+      // Set if of Announcement to be searched later
+      announcementId3 = data._id
+      expect(data).not.toBeNull()
     }
     catch (error) {
       expect(error).toBeFalsy()
@@ -141,6 +194,25 @@ describe('Update a announcement', () => {
       })
       const updatedData = await Announcement.findById(data._id)
       expect(updatedData).toEqual(data)
+    } catch (error) {
+      expect(error).toBeFalsy()
+    }
+  })
+})
+
+describe('Get first 5 latest Announcements', () => {
+  test('It should retrieve 5 announcements with descending creation date', async () => {
+    try {
+      const data = await Announcement.find().sort({ createdAt: -1 }).limit(5)
+      const dataLength = Object.keys(data).length
+
+      const pastDateFound = Object.values(data).reduce((pastDateFound, announcement) => {
+        // $FlowFixMe - Turn off property accessed on mixed errors
+        return announcement.createdAt.toString() === tenDaysAgo.toString()
+      }, false)
+
+      expect(dataLength).toBeLessThanOrEqual(5)
+      expect(pastDateFound).toBeFalsy()
     } catch (error) {
       expect(error).toBeFalsy()
     }
