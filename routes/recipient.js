@@ -5,7 +5,7 @@ const Recipient = require('../models/Recipient')
 const authMiddleware = require('../middleware/auth')
 const router = express.Router()
 
-// POST - Search recipients by Nationality
+// POST - Search recipients by Nationality, Role or Graduation Date
 router.post('/recipients/search', authMiddleware.requireJWT, async (req, res) => {
   const attributes = req.body
   const nationality = attributes.nationality
