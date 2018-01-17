@@ -143,6 +143,7 @@ describe('Create a notification', () => {
       expect(response.status).toBe(201)
       // Set this user as the id to be checked later on
       notificationId1 = response.data._id
+      expect(response.data).not.toBeNull()
     } catch (error) {
       expect(error).toBeFalsy()
     }
@@ -157,6 +158,7 @@ describe('Create a second notification', () => {
       expect(response.status).toBe(201)
       // Set this user as the id to be checked later on
       notificationId2 = response.data._id
+      expect(response.data).not.toBeNull()
     } catch (error) {
       expect(error).toBeFalsy()
     }
@@ -171,6 +173,7 @@ describe('Create a third notification', () => {
       expect(response.status).toBe(201)
       // Set this user as the id to be checked later on
       notificationId3 = response.data._id
+      expect(response.data).not.toBeNull()
     } catch (error) {
       expect(error).toBeFalsy()
     }
@@ -183,8 +186,7 @@ describe('Create a fourth notification', () => {
       attributes3.recipients = [recipientObj]
       const response = await api.post('/notifications', attributes4)
       expect(response.status).toBe(201)
-      // Set this user as the id to be checked later on
-      notificationId3 = response.data._id
+      expect(response.data).not.toBeNull()
     } catch (error) {
       expect(error).toBeFalsy()
     }
@@ -197,8 +199,7 @@ describe('Create a fifth notification', () => {
       attributes3.recipients = [recipientObj]
       const response = await api.post('/notifications', attributes5)
       expect(response.status).toBe(201)
-      // Set this user as the id to be checked later on
-      notificationId3 = response.data._id
+      expect(response.data).not.toBeNull()
     } catch (error) {
       expect(error).toBeFalsy()
     }
@@ -211,8 +212,7 @@ describe('Create a sixth notification', () => {
       attributes3.recipients = [recipientObj]
       const response = await api.post('/notifications', attributes6)
       expect(response.status).toBe(201)
-      // Set this user as the id to be checked later on
-      notificationId3 = response.data._id
+      expect(response.data).not.toBeNull()
     } catch (error) {
       expect(error).toBeFalsy()
     }
@@ -225,8 +225,7 @@ describe('Create a seventh notification', () => {
       attributes3.recipients = [recipientObj]
       const response = await api.post('/notifications', attributes7)
       expect(response.status).toBe(201)
-      // Set this user as the id to be checked later on
-      notificationId3 = response.data._id
+      expect(response.data).not.toBeNull()
     } catch (error) {
       expect(error).toBeFalsy()
     }
@@ -250,7 +249,7 @@ describe('Get all notifications', () => {
     try {
       const response = await api.get('/notifications')
       expect(response.status).toBe(200)
-      expect(response.data.length).toBeGreaterThan(1)
+      expect(response.data.length).toEqual(7)
     } catch (error) {
       expect(error).toBeFalsy()
     }
@@ -285,18 +284,6 @@ describe('Update a notification', () => {
   })
 })
 
-describe('Delete a notification by ID', () => {
-  test('It should delete a specific notification', async () => {
-    try {
-      const response = await api.delete(`/notifications/${notificationId1}`)
-      expect(response.status).toBe(200)
-      expect(response.data._id).toEqual(notificationId1)
-    } catch (error) {
-      expect(error).toBeFalsy()
-    }
-  })
-})
-
 describe('Get first 5 latest Notification', () => {
   test('It should retrieve 5 notifications with descending creation date', async () => {
     try {
@@ -313,6 +300,18 @@ describe('Get first 5 latest Notification', () => {
       expect(dataLength).toBeLessThanOrEqual(5)
       expect(pastDateFound).toBeFalsy()
 
+    } catch (error) {
+      expect(error).toBeFalsy()
+    }
+  })
+})
+
+describe('Delete a notification by ID', () => {
+  test('It should delete a specific notification', async () => {
+    try {
+      const response = await api.delete(`/notifications/${notificationId1}`)
+      expect(response.status).toBe(200)
+      expect(response.data._id).toEqual(notificationId1)
     } catch (error) {
       expect(error).toBeFalsy()
     }
