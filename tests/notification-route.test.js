@@ -297,8 +297,8 @@ describe('Delete a notification by ID', () => {
   })
 })
 
-describe('Get all notifications', () => {
-  test('It should get more than one notifications', async () => {
+describe('Get first 5 latest Notification', () => {
+  test('It should retrieve 5 notifications with descending creation date', async () => {
     try {
       const response = await api.get('/notifications/latest/5')
       const data = response.data
