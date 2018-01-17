@@ -12,6 +12,7 @@ const recipient = {
   idNo: '201812345678',
   firstName: 'John',
   lastName: 'Smith',
+  role: 'Student',
   mobile: '+61444888000',
   email: 'somone@example.com',
   nationality: 'Australia'

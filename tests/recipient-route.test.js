@@ -22,6 +22,7 @@ const attributes1 = {
   idNo: '201812345678',
   firstName: 'John',
   lastName: 'Smith',
+  role: 'Student',
   mobile: '+61444888000',
   email: 'somone@example.com',
   nationality: 'Australia'
@@ -30,6 +31,7 @@ const attributes2 = {
   idNo: '201812345699',
   firstName: 'Alex',
   lastName: 'Parker',
+  role: 'Student',
   mobile: '+61444888001',
   email: 'somone2@example.com',
   nationality: 'Australia'
@@ -38,6 +40,7 @@ const attributes3 = {
   idNo: '201812345680',
   firstName: 'Ben',
   lastName: 'Blaze',
+  role: 'Student',
   mobile: '+61444888002',
   email: 'somone3@example.com',
   nationality: 'Australia'
