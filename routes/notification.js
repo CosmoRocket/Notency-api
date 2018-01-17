@@ -63,7 +63,6 @@ router.post('/notifications', authMiddleware.requireJWT, async (req, res) => {
     res.status(201).json(notification)
   }
   catch (error) {
-    console.error(error)
     res.status(400).json({ error: error })
   }
 })
