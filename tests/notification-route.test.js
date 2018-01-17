@@ -305,6 +305,7 @@ describe('Get all notifications', () => {
       const dataLength = Object.keys(data).length
 
       const pastDateFound = Object.values(data).reduce((pastDateFound, notification) => {
+        // $FlowFixMe - Turn off property accessed on mixed errors
         return notification.createdAt.toString() === tenDaysAgo.toString()
       }, false)
 
