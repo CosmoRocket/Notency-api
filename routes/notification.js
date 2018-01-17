@@ -4,6 +4,17 @@ const Notification = require('../models/Notification')
 const authMiddleware = require('../middleware/auth')
 const router = express.Router()
 
+// GET - Get latest X notifications
+router.get('/notifications/latest/:limit', authMiddleware.requireJWT, async (req, res) => {
+  try {
+    const limit = parseInt(req.params.limit)
+    const notifications = await Notification.find().sort({ createdAt: -1 }).limit(limit)
+    res.json(notifications)
+  } catch (error) {
+    res.status(400).json({ error: error.message })
+  }
+})
+
 // GET - Read all notifications
 router.get('/notifications', authMiddleware.requireJWT, (req, res) => {
   Notification.find()
