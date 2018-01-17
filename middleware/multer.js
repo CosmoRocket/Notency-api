@@ -9,7 +9,7 @@ const storage = multer.diskStorage({
     cb(null, './files')
   },
   filename: (req, file, cb) => {
-    cb(null, 'test.csv')
+    cb(null, file.originalname)
   }
 })
 
@@ -18,11 +18,13 @@ const upload = multer({ storage })
 
 // Upload File Request/Response
 const uploadFile = async (req, res) => {
+  console.log('File Uploaded', req.file)
   
   // Upload folder
   const UPLOAD_FOLDER = 'files'
-  const FILE_NAME = 'test.csv'
-  // Upload the file
+  const FILE_NAME = req.file.originalname
+
+  // Read the CSV File
   try {
     const records = await readFromCsv(UPLOAD_FOLDER+'/'+FILE_NAME)
     res.status(201).json({ records })
