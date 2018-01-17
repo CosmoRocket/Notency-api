@@ -60,6 +60,46 @@ const attributes3 = {
   recipients: []
 }
 
+const attributes4 = {
+  code: 'TN4',
+  subject: 'Test Notification 4',
+  body: 'This is a test Notification',
+  bodyHtml: 'This is a test Notification',
+  groups: [{ name: "nationality", item: "France" }],
+  recipients: []
+}
+
+const attributes5 = {
+  code: 'TN5',
+  subject: 'Test Notification 5',
+  body: 'This is a test Notification',
+  bodyHtml: 'This is a test Notification',
+  groups: [{ name: "nationality", item: "Philippines" }],
+  recipients: []
+}
+
+const tenDaysAgo = new Date(new Date().setDate(new Date().getDate() - 10))
+
+const attributes6 = {
+  code: 'TN6',
+  subject: 'Test Notification 6',
+  body: 'This is a test Notification',
+  bodyHtml: 'This is a test Notification',
+  groups: [{ name: "nationality", item: "Hong Kong" }],
+  recipients: [],
+  createdAt: tenDaysAgo
+}
+
+const attributes7 = {
+  code: 'TN7',
+  subject: 'Test Notification 7',
+  body: 'This is a test Notification',
+  bodyHtml: 'This is a test Notification',
+  groups: [{ name: "nationality", item: "Hong Kong" }],
+  recipients: [],
+  createdAt: tenDaysAgo
+}
+
 beforeAll(async () => {
   try {
     await Notification.deleteMany()
@@ -137,6 +177,62 @@ describe('Create a third notification', () => {
   })
 })
 
+describe('Create a fourth notification', () => {
+  test('It should create a new notification', async () => {
+    try {
+      attributes3.recipients = [recipientObj]
+      const response = await api.post('/notifications', attributes4)
+      expect(response.status).toBe(201)
+      // Set this user as the id to be checked later on
+      notificationId3 = response.data._id
+    } catch (error) {
+      expect(error).toBeFalsy()
+    }
+  })
+})
+
+describe('Create a fifth notification', () => {
+  test('It should create a new notification', async () => {
+    try {
+      attributes3.recipients = [recipientObj]
+      const response = await api.post('/notifications', attributes5)
+      expect(response.status).toBe(201)
+      // Set this user as the id to be checked later on
+      notificationId3 = response.data._id
+    } catch (error) {
+      expect(error).toBeFalsy()
+    }
+  })
+})
+
+describe('Create a sixth notification', () => {
+  test('It should create a new notification', async () => {
+    try {
+      attributes3.recipients = [recipientObj]
+      const response = await api.post('/notifications', attributes6)
+      expect(response.status).toBe(201)
+      // Set this user as the id to be checked later on
+      notificationId3 = response.data._id
+    } catch (error) {
+      expect(error).toBeFalsy()
+    }
+  })
+})
+
+describe('Create a seventh notification', () => {
+  test('It should create a new notification', async () => {
+    try {
+      attributes3.recipients = [recipientObj]
+      const response = await api.post('/notifications', attributes7)
+      expect(response.status).toBe(201)
+      // Set this user as the id to be checked later on
+      notificationId3 = response.data._id
+    } catch (error) {
+      expect(error).toBeFalsy()
+    }
+  })
+})
+
 describe('Create a duplicate notification', () => {
   test('It should note create a duplicated notification', async () => {
     try {
@@ -195,6 +291,27 @@ describe('Delete a notification by ID', () => {
       const response = await api.delete(`/notifications/${notificationId1}`)
       expect(response.status).toBe(200)
       expect(response.data._id).toEqual(notificationId1)
+    } catch (error) {
+      expect(error).toBeFalsy()
+    }
+  })
+})
+
+describe('Get all notifications', () => {
+  test('It should get more than one notifications', async () => {
+    try {
+      const response = await api.get('/notifications/latest/5')
+      const data = response.data
+      const dataLength = Object.keys(data).length
+
+      const pastDateFound = Object.values(data).reduce((pastDateFound, notification) => {
+        return notification.createdAt.toString() === tenDaysAgo.toString()
+      }, false)
+
+      expect(response.status).toBe(200)
+      expect(dataLength).toBeLessThanOrEqual(5)
+      expect(pastDateFound).toBeFalsy()
+
     } catch (error) {
       expect(error).toBeFalsy()
     }
