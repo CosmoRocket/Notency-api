@@ -72,9 +72,13 @@ yarn jest
 {
   "nationality": "Australia",
   "role": "Student",
-  "graduationDate": "31/12/2018"
+  "graduationDate": "31/12/2018",
+  "active": true
 }
 ```
+
+`GET /recipients/active`
+- Get a list of all active recipients
 
 `GET /recipients`
 - Get a list of all recipients
