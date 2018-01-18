@@ -40,6 +40,17 @@ router.get('/recipients', authMiddleware.requireJWT, async (req, res) => {
   }
 })
 
+// GET - Read all active recipients
+router.get('/recipients/active', authMiddleware.requireJWT, async (req, res) => {
+  try {
+    const recipients = await Recipient.find({ active: true })
+    res.json( recipients)
+  }
+  catch (error) {
+    res.status(400).json({ error: error.message })
+  }
+})
+
 // GET - Read an individual recipient document
 router.get('/recipients/:id', authMiddleware.requireJWT, async (req, res) => {
   try {
