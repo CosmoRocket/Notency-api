@@ -11,11 +11,13 @@ router.post('/recipients/search', authMiddleware.requireJWT, async (req, res) =>
   const nationality = attributes.nationality
   const role = attributes.role
   const graduationDate = !!attributes.graduationDate ? moment.utc(attributes.graduationDate, 'DD/MM/YYYY', true) : null
+  const active = attributes.active
   const filters = {}
 
   if (nationality) filters.nationality = nationality
   if (role) filters.role = role
   if (graduationDate) filters.graduationDate = graduationDate
+  if (active) filters.active = active
 
   try {
     const recipients = await Recipient.find(filters)
@@ -31,7 +33,7 @@ router.post('/recipients/search', authMiddleware.requireJWT, async (req, res) =>
 router.get('/recipients', authMiddleware.requireJWT, async (req, res) => {
   try {
     const recipients = await Recipient.find()
-    res.json(recipients)
+    res.json( recipients)
   }
   catch (error) {
     res.status(400).json({ error: error.message })
