@@ -23,7 +23,7 @@ Recipient.create({
   mobile: '+61444888000',
   email: 'somone@example.com',
   nationality: 'Australia',
-  role: 'teacher',
+  role: 'staff',
   graduationDate: moment.utc('14/12/2018', 'DD/MM/YYYY', true)
 })
   .then(recipient => {
