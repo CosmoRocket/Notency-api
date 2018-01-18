@@ -129,7 +129,7 @@ describe('Send a valid OK response to Notification 1', () => {
         ApiVersion: '2010-04-01'
       }
 
-      const response = await api.patch('/sms/receive', sms)
+      const response = await api.post('/sms/receive', sms)
       expect(response.status).toBe(200)
     }
     catch (error) {
@@ -164,7 +164,7 @@ describe('Send an invalid response to Notification 1', () => {
         ApiVersion: '2010-04-01'
       }
 
-      const response = await api.patch('/sms/receive', sms)
+      const response = await api.post('/sms/receive', sms)
       expect('Should catch an error').toBeNull()
     }
     catch (error) {
@@ -199,7 +199,7 @@ describe('Send a valid Not OK response to Notification 1', () => {
         ApiVersion: '2010-04-01'
       }
 
-      const response = await api.patch('/sms/receive', sms)
+      const response = await api.post('/sms/receive', sms)
       expect(response.status).toBe(200)
     }
     catch (error) {
@@ -233,7 +233,7 @@ describe('Send an invalid Not OK response to Notification 1', () => {
         ApiVersion: '2010-04-01'
       }
 
-      const response = await api.patch('/sms/receive', sms)
+      const response = await api.post('/sms/receive', sms)
       expect('Should catch an error').toBeNull()
     }
     catch (error) {
@@ -268,7 +268,7 @@ describe('Send with an invalid sender', () => {
         ApiVersion: '2010-04-01'
       }
 
-      const response = await api.patch('/sms/receive', email)
+      const response = await api.post('/sms/receive', email)
       expect('Should catch an error').toBeNull()
     }
     catch (error) {
@@ -303,7 +303,7 @@ describe('Send with an invalid notification code', () => {
         ApiVersion: '2010-04-01'
       }
 
-      const response = await api.patch('/sms/receive', email)
+      const response = await api.post('/sms/receive', email)
       expect('Should catch an error').toBeNull()
     }
     catch (error) {

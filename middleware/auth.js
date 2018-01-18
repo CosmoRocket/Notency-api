@@ -7,7 +7,7 @@ const User = require('../models/User')
 // JWT Credentials
 const jwtSecret = process.env.JWT_SECRET
 const jwtAlgorithm = process.env.JWT_ALGORITHM
-const jwtExpiresIn = process.env.JWT_EXPIRES_IN
+// const jwtExpiresIn = process.env.JWT_EXPIRES_IN
 
 passport.use(User.createStrategy())
 

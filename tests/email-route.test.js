@@ -113,7 +113,7 @@ describe('Send a valid OK response to Notification 1', () => {
         'stripped-text': 'EQ1 OK'
       }
 
-      const response = await api.patch('/email/receive', email)
+      const response = await api.post('/email/receive', email)
       expect(response.status).toBe(200)
     }
     catch (error) {
@@ -131,7 +131,7 @@ describe('Send an invalid response to Notification 1', () => {
         'stripped-text': 'EQ1OK'
       }
 
-      const response = await api.patch('/email/receive', email)
+      const response = await api.post('/email/receive', email)
       expect('Should catch an error').toBeNull()
     }
     catch (error) {
@@ -150,7 +150,7 @@ describe('Send a valid Not OK response to Notification 1', () => {
         'stripped-text': 'EQ1 I need help'
       }
 
-      const response = await api.patch('/email/receive', email)
+      const response = await api.post('/email/receive', email)
       expect(response.status).toBe(200)
     }
     catch (error) {
@@ -168,7 +168,7 @@ describe('Send an invalid Not OK response to Notification 1', () => {
         'stripped-text': 'I need help'
       }
 
-      const response = await api.patch('/email/receive', email)
+      const response = await api.post('/email/receive', email)
       expect('Should catch an error').toBeNull()
     }
     catch (error) {
@@ -187,7 +187,7 @@ describe('Send with an invalid sender', () => {
         'stripped-text': 'EQ1 OK'
       }
 
-      const response = await api.patch('/email/receive', email)
+      const response = await api.post('/email/receive', email)
       expect('Should catch an error').toBeNull()
     }
     catch (error) {
@@ -206,7 +206,7 @@ describe('Send with an invalid notification code', () => {
         'stripped-text': 'EQ5 OK'
       }
 
-      const response = await api.patch('/email/receive', email)
+      const response = await api.post('/email/receive', email)
       expect('Should catch an error').toBeNull()
     }
     catch (error) {

@@ -177,7 +177,7 @@ yarn jest
 
 ### SMS
 
-`PATCH /sms/receive`
+`POST /sms/receive`
 - Receive SMS messages and store them in the Notification responses
 - Request Parameters: `From`, `Body`
 ```javascript
@@ -209,7 +209,7 @@ yarn jest
 
 ### E-mail
 
-`PATCH /email/receive`
+`POST /email/receive`
 - Receive E-mail messages and store them in the Notification responses
 - Request Parameters: `sender`, `subject`, `stripped-text`
 ```javascript
