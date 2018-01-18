@@ -1,5 +1,6 @@
 /* @flow */
 const mongoose = require('mongoose')
+// Dotenv - Necessary to be placed here for process.env to be recognised on test runtime
 require('dotenv').config()
 // Use the Promise functionality built into Node.js
 mongoose.Promise = global.Promise
