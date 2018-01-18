@@ -203,6 +203,21 @@ describe('Search recipients by role', () => {
   })
 })
 
+describe('Search recipients by active', () => {
+  test('It should get recipients which are active', async () => {
+    try {
+      const attributes = {
+        active: true
+      }
+      const response = await api.post('/recipients/search', attributes)
+      expect(response.status).toBe(200)
+      expect(response.data.length).toEqual(3)
+    } catch (error) {
+      expect(error).toBeFalsy()
+    }
+  })
+})
+
 describe('Delete a recipient by ID', () => {
   test('It should delete a specific recipient', async () => {
     try {
