@@ -127,6 +127,18 @@ describe('Get all recipients', () => {
   })
 })
 
+describe('Get all active recipients', () => {
+  test('It should get all active recipients', async () => {
+    try {
+      const response = await api.get('/recipients/active')
+      expect(response.status).toBe(200)
+      expect(response.data.length).toEqual(3)
+    } catch (error) {
+      expect(error).toBeFalsy()
+    }
+  })
+})
+
 describe('Get a recipient by ID', () => {
   test('It should return a specific recipient', async () => {
     try {
