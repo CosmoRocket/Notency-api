@@ -19,7 +19,7 @@ const notificationSchema = new Schema({
   subject: { type: String, required: true, unique: true },
   body: { type: String, required: true },
   bodyHtml: { type: String, required: true },
-  groups: { type: Array, default: [], required: true },
+  groups: { type: Array, default: [] },
   recipients: [{ type: Schema.ObjectId, ref: 'Recipient', default: [], required: true }],
   responses: [{ type: Schema.ObjectId, ref: 'Message', default: [] }],
   createdAt: { type: Date, default: Date.now }
