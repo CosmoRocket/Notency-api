@@ -6,7 +6,7 @@ mongoose.Promise = global.Promise
 
 // Connect to our local database
 mongoose
-  .connect('mongodb://localhost/notency', { useMongoClient: true })
+  .connect(process.env.MONGO_URI)
   .then(() => {
     console.log('Successfully connected to database')
   })
