@@ -28,19 +28,14 @@ const uploadFile = async (req, res) => {
     const records = await readFromCsv(UPLOAD_FOLDER + '/' + FILE_NAME)
     // Format records as Recipients
     const recipientRecords = formatRecordsForRecipients(records)
-    // Array of ID Numbers to be activated in Records
-    // const activeIdNumbers = getIDNumbersFromRecords(records)
-
-    // console.log(recipientRecords)
+    // Recipient Records are present
     if (recipientRecords) {
-
-      // Deactivate all Records first
+      // First, deactivate all Records in Recipients
       await Recipient.update(
-        { },
+        {},
         { $set: { active: false } },
         { multi: true, upsert: false, new: true, runValidators: true }
       )
-
       // Store records to Recipients and Activate
       const results = await Promise.all(recipientRecords.map((recipientAttributes) => {
         return Recipient.findOneAndUpdate(
@@ -49,8 +44,6 @@ const uploadFile = async (req, res) => {
           { upsert: true, new: true, runValidators: true }
         )
       }))
-
-      // console.log(deactivatedRecords)
       res.status(201).json(results)
     }
     else {
