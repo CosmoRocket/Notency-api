@@ -127,6 +127,18 @@ describe('Get all recipients', () => {
   })
 })
 
+describe('Get all active recipients', () => {
+  test('It should get all active recipients', async () => {
+    try {
+      const response = await api.get('/recipients/active')
+      expect(response.status).toBe(200)
+      expect(response.data.length).toEqual(3)
+    } catch (error) {
+      expect(error).toBeFalsy()
+    }
+  })
+})
+
 describe('Get a recipient by ID', () => {
   test('It should return a specific recipient', async () => {
     try {
@@ -197,6 +209,21 @@ describe('Search recipients by role', () => {
       const response = await api.post('/recipients/search', attributes)
       expect(response.status).toBe(200)
       expect(response.data.length).toEqual(1)
+    } catch (error) {
+      expect(error).toBeFalsy()
+    }
+  })
+})
+
+describe('Search recipients by active', () => {
+  test('It should get recipients which are active', async () => {
+    try {
+      const attributes = {
+        active: true
+      }
+      const response = await api.post('/recipients/search', attributes)
+      expect(response.status).toBe(200)
+      expect(response.data.length).toEqual(3)
     } catch (error) {
       expect(error).toBeFalsy()
     }

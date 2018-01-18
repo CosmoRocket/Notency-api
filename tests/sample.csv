@@ -1,5 +1,5 @@
-Student Id,Last Name,First Name,Mobile,Email
-1,Dimaliwat,Glenn,+61000000000,glenn@test.com
-2,Voon,John,+61000000001,john@test.com
-3,Palumbo,Alessio,+61000000002,alessio@test.com
-4,Farries,Alex,+61000000003,alex@test.com
+"idNo","lastName","firstName","role","mobile","email","nationality","graduationDate"
+"1","Dimaliwat","Glenn","Staff","61000000000","glenn@test.com","Philippines","31/12/2018"
+"2","Voon","John","Staff","61000000001","john@test.com","Australia","31/12/2018"
+"3","Palumbo","Alessio","Student","61000000002","alessio@test.com","Italy","31/12/2018"
+"4","Farries","Alex","Student","61000000003","alex@test.com","Australia","31/12/2018"

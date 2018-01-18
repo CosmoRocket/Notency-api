@@ -1,12 +1,14 @@
 /* @flow */
 const mongoose = require('mongoose')
-
+// Dotenv - Necessary to be placed here for process.env to be recognised on test runtime
+require('dotenv').config()
 // Use the Promise functionality built into Node.js
 mongoose.Promise = global.Promise
 
 // Connect to our local database
 mongoose
-  .connect('mongodb://localhost/notency-test', { useMongoClient: true })
+  // .connect(`mongodb://${process.env.MONGO_TEST_URI}`, { useMongoClient: true })
+  .connect(process.env.MONGO_TEST_URI)
   .then(() => {
     console.log('Successfully connected to test database')
   })

@@ -72,9 +72,13 @@ yarn jest
 {
   "nationality": "Australia",
   "role": "Student",
-  "graduationDate": "31/12/2018"
+  "graduationDate": "31/12/2018",
+  "active": true
 }
 ```
+
+`GET /recipients/active`
+- Get a list of all active recipients
 
 `GET /recipients`
 - Get a list of all recipients
@@ -173,7 +177,7 @@ yarn jest
 
 ### SMS
 
-`PATCH /sms/receive`
+`POST /sms/receive`
 - Receive SMS messages and store them in the Notification responses
 - Request Parameters: `From`, `Body`
 ```javascript
@@ -205,7 +209,7 @@ yarn jest
 
 ### E-mail
 
-`PATCH /email/receive`
+`POST /email/receive`
 - Receive E-mail messages and store them in the Notification responses
 - Request Parameters: `sender`, `subject`, `stripped-text`
 ```javascript

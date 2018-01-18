@@ -1,12 +1,13 @@
 /* @flow */
 const mongoose = require('mongoose')
-
+// Dotenv - Necessary to be placed here for process.env to be recognised on runtime
+require('dotenv').config()
 // Use the Promise functionality built into Node.js
 mongoose.Promise = global.Promise
 
 // Connect to our local database
 mongoose
-  .connect('mongodb://localhost/notency', { useMongoClient: true })
+  .connect(process.env.MONGO_URI)
   .then(() => {
     console.log('Successfully connected to database')
   })

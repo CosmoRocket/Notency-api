@@ -8,7 +8,13 @@ const router = express.Router()
 router.get('/notifications/latest/:limit', authMiddleware.requireJWT, async (req, res) => {
   try {
     const limit = parseInt(req.params.limit)
-    const notifications = await Notification.find().sort({ createdAt: -1 }).limit(limit)
+    const notifications = await Notification.find().sort({ createdAt: -1 }).limit(limit).populate({
+      path: 'responses',
+      populate: {
+        path: 'sender',
+        model: 'Recipient'
+      }
+    })
     res.json(notifications)
   } catch (error) {
     res.status(400).json({ error: error.message })
