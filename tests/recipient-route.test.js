@@ -1,5 +1,6 @@
 /* @flow */
 const axios = require('axios')
+const moment = require('moment')
 const User = require('../models/User')
 const Recipient = require('../models/Recipient')
 const api = axios.create({
@@ -22,6 +23,7 @@ const attributes1 = {
   idNo: '201812345678',
   firstName: 'John',
   lastName: 'Smith',
+  role: 'Staff',
   mobile: '+61444888000',
   email: 'somone@example.com',
   nationality: 'Australia'
@@ -30,17 +32,21 @@ const attributes2 = {
   idNo: '201812345699',
   firstName: 'Alex',
   lastName: 'Parker',
+  role: 'Student',
   mobile: '+61444888001',
   email: 'somone2@example.com',
-  nationality: 'Australia'
+  nationality: 'Australia',
+  graduationDate: moment.utc('31/12/2018', 'DD/MM/YYYY', true)
 }
 const attributes3 = {
   idNo: '201812345680',
   firstName: 'Ben',
   lastName: 'Blaze',
+  role: 'Student',
   mobile: '+61444888002',
   email: 'somone3@example.com',
-  nationality: 'Australia'
+  nationality: 'France',
+  graduationDate: moment.utc('31/12/2018', 'DD/MM/YYYY', true)
 }
 
 beforeAll(async () => {
@@ -158,9 +164,39 @@ describe('Search recipients by nationality', () => {
       const attributes = {
         nationality: ['Australia', 'Philippines']
       }
-      const response = await api.get('/recipients', attributes)
+      const response = await api.post('/recipients/search', attributes)
       expect(response.status).toBe(200)
-      expect(response.data.length).toEqual(3)
+      expect(response.data.length).toEqual(2)
+    } catch (error) {
+      expect(error).toBeFalsy()
+    }
+  })
+})
+
+describe('Search recipients by graduation date string', () => {
+  test('It should get recipients with the specified graduation date', async () => {
+    try {
+      const attributes = {
+        graduationDate: '31/12/2018'
+      }
+      const response = await api.post('/recipients/search', attributes)
+      expect(response.status).toBe(200)
+      expect(response.data.length).toEqual(2)
+    } catch (error) {
+      expect(error).toBeFalsy()
+    }
+  })
+})
+
+describe('Search recipients by role', () => {
+  test('It should get recipients with the specified nationality', async () => {
+    try {
+      const attributes = {
+        role: 'Staff'
+      }
+      const response = await api.post('/recipients/search', attributes)
+      expect(response.status).toBe(200)
+      expect(response.data.length).toEqual(1)
     } catch (error) {
       expect(error).toBeFalsy()
     }

@@ -12,6 +12,7 @@ const recipient = {
   idNo: '201812345678',
   firstName: 'John',
   lastName: 'Smith',
+  role: 'Student',
   mobile: '+61444888000',
   email: 'somone@example.com',
   nationality: 'Australia'
@@ -22,7 +23,7 @@ const attributes1 = {
   subject: 'Earthquake at Melbourne',
   body: 'This is to inform all Students that there has been an Earthquake at Melbourne. Please reply "EARTHQUAKE1 OK" if you are safe.',
   bodyHtml: 'This is to inform all Students that there has been an Earthquake at Melbourne. Please reply "EARTHQUAKE1 OK" if you are safe.',
-  groups: [{name: "nationality", item: "Australia"}],
+  groups: [{ name: "nationality", item: "Australia" }],
   recipients: []
 }
 
@@ -31,7 +32,7 @@ const attributes2 = {
   subject: 'Tsunami at Sydney Harbour',
   body: 'This is to inform all Students that there has been a Tsunami at Sydney Harbour. Please reply "TSUNAMI1 OK" if you are safe.',
   bodyHtml: 'This is to inform all Students that there has been an Earthquake at Melbourne. Please reply "EARTHQUAKE1 OK" if you are safe.',
-  groups: [{name: "nationality", item: "Australia"}],
+  groups: [{ name: "nationality", item: "Australia" }],
   recipients: []
 }
 
@@ -40,8 +41,48 @@ const attributes3 = {
   subject: 'Terror Attack in France',
   body: 'This is to inform all Students that there has been a Terror Attack in France. Please reply "FRANCETERROR OK" if you are safe.',
   bodyHtml: 'This is to inform all Students that there has been an Earthquake at Melbourne. Please reply "EARTHQUAKE1 OK" if you are safe.',
-  groups: [{name: "nationality", item: "France"}],
+  groups: [{ name: "nationality", item: "France" }],
   recipients: []
+}
+
+const attributes4 = {
+  code: 'TN4',
+  subject: 'Test Notification 4',
+  body: 'This is a test Notification',
+  bodyHtml: 'This is a test Notification',
+  groups: [{ name: "nationality", item: "France" }],
+  recipients: []
+}
+
+const attributes5 = {
+  code: 'TN5',
+  subject: 'Test Notification 5',
+  body: 'This is a test Notification',
+  bodyHtml: 'This is a test Notification',
+  groups: [{ name: "nationality", item: "Philippines" }],
+  recipients: []
+}
+
+const tenDaysAgo = new Date(new Date().setDate(new Date().getDate() - 10))
+
+const attributes6 = {
+  code: 'TN6',
+  subject: 'Test Notification 6',
+  body: 'This is a test Notification',
+  bodyHtml: 'This is a test Notification',
+  groups: [{ name: "nationality", item: "Hong Kong" }],
+  recipients: [],
+  createdAt: tenDaysAgo
+}
+
+const attributes7 = {
+  code: 'TN7',
+  subject: 'Test Notification 7',
+  body: 'This is a test Notification',
+  bodyHtml: 'This is a test Notification',
+  groups: [{ name: "nationality", item: "Hong Kong" }],
+  recipients: [],
+  createdAt: tenDaysAgo
 }
 
 const response1 = {
@@ -85,12 +126,13 @@ describe('Create a recipient', () => {
 })
 
 describe('Create first notification', () => {
-  test('It should create a new notification', async() => {
+  test('It should create a new notification', async () => {
     try {
       attributes1.recipients = [recipientObj]
       const data = await Notification.create(attributes1)
       // Set if of notification to be searched later
       notificationId1 = data._id
+      expect(data).not.toBeNull()
     }
     catch (error) {
       expect(error).toBeFalsy()
@@ -99,12 +141,13 @@ describe('Create first notification', () => {
 })
 
 describe('Create second notification', () => {
-  test('It should create a new notification', async() => {
+  test('It should create a new notification', async () => {
     try {
       attributes2.recipients = [recipientObj]
       const data = await Notification.create(attributes2)
       // Set if of notification to be searched later
       notificationId2 = data._id
+      expect(data).not.toBeNull()
     }
     catch (error) {
       expect(error).toBeFalsy()
@@ -113,12 +156,29 @@ describe('Create second notification', () => {
 })
 
 describe('Create third notification', () => {
-  test('It should create a new notification', async() => {
+  test('It should create a new notification', async () => {
     try {
       attributes3.recipients = [recipientObj]
       const data = await Notification.create(attributes3)
       // Set if of notification to be searched later
       notificationId3 = data._id
+      expect(data).not.toBeNull()
+    }
+    catch (error) {
+      expect(error).toBeFalsy()
+    }
+  })
+})
+
+describe('Create 4 more notification', () => {
+  test('It should create new notifications', async () => {
+    try {
+      attributes4.recipients = [recipientObj]
+      attributes5.recipients = [recipientObj]
+      attributes6.recipients = [recipientObj]
+      attributes7.recipients = [recipientObj]
+      const data = await Notification.create([attributes4, attributes5, attributes6, attributes7])
+      expect(data).not.toBeNull()
     }
     catch (error) {
       expect(error).toBeFalsy()
@@ -131,7 +191,7 @@ describe('Get all notifications', () => {
     try {
       const data = await Notification.find()
       const dataLength = Object.keys(data).length
-      expect(dataLength).toBeGreaterThan(1) // Should be more than 1 recipient
+      expect(dataLength).toEqual(7) // Should be more than 1 recipient
     } catch (error) {
       expect(error).toBeFalsy()
     }
@@ -229,6 +289,25 @@ describe('Create response message for Notification 3', () => {
       })
       const updatedData = await Notification.findById(data._id)
       expect(updatedData).toEqual(data)
+    } catch (error) {
+      expect(error).toBeFalsy()
+    }
+  })
+})
+
+describe('Get first 5 latest Notification', () => {
+  test('It should retrieve 5 notifications with descending creation date', async () => {
+    try {
+      const data = await Notification.find().sort({ createdAt: -1 }).limit(5)
+      const dataLength = Object.keys(data).length
+
+      const pastDateFound = Object.values(data).reduce((pastDateFound, notification) => {
+        // $FlowFixMe - Turn off property accessed on mixed errors
+        return notification.createdAt.toString() === tenDaysAgo.toString()
+      }, false)
+
+      expect(dataLength).toBeLessThanOrEqual(5)
+      expect(pastDateFound).toBeFalsy()
     } catch (error) {
       expect(error).toBeFalsy()
     }

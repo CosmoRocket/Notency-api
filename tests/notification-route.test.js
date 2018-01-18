@@ -28,6 +28,7 @@ const recipient = {
   idNo: '201812345678',
   firstName: 'John',
   lastName: 'Smith',
+  role: 'Student',
   mobile: '+61444888000',
   email: 'somone@example.com',
   nationality: 'Australia'
@@ -58,6 +59,46 @@ const attributes3 = {
   bodyHtml: 'This is to inform all Students that there has been a Terror Attack in France. Please reply "FRANCETERROR OK" if you are safe.',
   groups: [{name: "nationality", item: "France"}],
   recipients: []
+}
+
+const attributes4 = {
+  code: 'TN4',
+  subject: 'Test Notification 4',
+  body: 'This is a test Notification',
+  bodyHtml: 'This is a test Notification',
+  groups: [{ name: "nationality", item: "France" }],
+  recipients: []
+}
+
+const attributes5 = {
+  code: 'TN5',
+  subject: 'Test Notification 5',
+  body: 'This is a test Notification',
+  bodyHtml: 'This is a test Notification',
+  groups: [{ name: "nationality", item: "Philippines" }],
+  recipients: []
+}
+
+const tenDaysAgo = new Date(new Date().setDate(new Date().getDate() - 10))
+
+const attributes6 = {
+  code: 'TN6',
+  subject: 'Test Notification 6',
+  body: 'This is a test Notification',
+  bodyHtml: 'This is a test Notification',
+  groups: [{ name: "nationality", item: "Hong Kong" }],
+  recipients: [],
+  createdAt: tenDaysAgo
+}
+
+const attributes7 = {
+  code: 'TN7',
+  subject: 'Test Notification 7',
+  body: 'This is a test Notification',
+  bodyHtml: 'This is a test Notification',
+  groups: [{ name: "nationality", item: "Hong Kong" }],
+  recipients: [],
+  createdAt: tenDaysAgo
 }
 
 beforeAll(async () => {
@@ -103,6 +144,7 @@ describe('Create a notification', () => {
       expect(response.status).toBe(201)
       // Set this user as the id to be checked later on
       notificationId1 = response.data._id
+      expect(response.data).not.toBeNull()
     } catch (error) {
       expect(error).toBeFalsy()
     }
@@ -117,6 +159,7 @@ describe('Create a second notification', () => {
       expect(response.status).toBe(201)
       // Set this user as the id to be checked later on
       notificationId2 = response.data._id
+      expect(response.data).not.toBeNull()
     } catch (error) {
       expect(error).toBeFalsy()
     }
@@ -131,6 +174,59 @@ describe('Create a third notification', () => {
       expect(response.status).toBe(201)
       // Set this user as the id to be checked later on
       notificationId3 = response.data._id
+      expect(response.data).not.toBeNull()
+    } catch (error) {
+      expect(error).toBeFalsy()
+    }
+  })
+})
+
+describe('Create a fourth notification', () => {
+  test('It should create a new notification', async () => {
+    try {
+      attributes3.recipients = [recipientObj]
+      const response = await api.post('/notifications', attributes4)
+      expect(response.status).toBe(201)
+      expect(response.data).not.toBeNull()
+    } catch (error) {
+      expect(error).toBeFalsy()
+    }
+  })
+})
+
+describe('Create a fifth notification', () => {
+  test('It should create a new notification', async () => {
+    try {
+      attributes3.recipients = [recipientObj]
+      const response = await api.post('/notifications', attributes5)
+      expect(response.status).toBe(201)
+      expect(response.data).not.toBeNull()
+    } catch (error) {
+      expect(error).toBeFalsy()
+    }
+  })
+})
+
+describe('Create a sixth notification', () => {
+  test('It should create a new notification', async () => {
+    try {
+      attributes3.recipients = [recipientObj]
+      const response = await api.post('/notifications', attributes6)
+      expect(response.status).toBe(201)
+      expect(response.data).not.toBeNull()
+    } catch (error) {
+      expect(error).toBeFalsy()
+    }
+  })
+})
+
+describe('Create a seventh notification', () => {
+  test('It should create a new notification', async () => {
+    try {
+      attributes3.recipients = [recipientObj]
+      const response = await api.post('/notifications', attributes7)
+      expect(response.status).toBe(201)
+      expect(response.data).not.toBeNull()
     } catch (error) {
       expect(error).toBeFalsy()
     }
@@ -154,7 +250,7 @@ describe('Get all notifications', () => {
     try {
       const response = await api.get('/notifications')
       expect(response.status).toBe(200)
-      expect(response.data.length).toBeGreaterThan(1)
+      expect(response.data.length).toEqual(7)
     } catch (error) {
       expect(error).toBeFalsy()
     }
@@ -183,6 +279,28 @@ describe('Update a notification', () => {
       expect(response.status).toBe(200)
       expect(response.data._id).toEqual(notificationId1)
       expect(response.data.body).toEqual(attributes.body)
+    } catch (error) {
+      expect(error).toBeFalsy()
+    }
+  })
+})
+
+describe('Get first 5 latest Notification', () => {
+  test('It should retrieve 5 notifications with descending creation date', async () => {
+    try {
+      const response = await api.get('/notifications/latest/5')
+      const data = response.data
+      const dataLength = Object.keys(data).length
+
+      const pastDateFound = Object.values(data).reduce((pastDateFound, notification) => {
+        // $FlowFixMe - Turn off property accessed on mixed errors
+        return notification.createdAt.toString() === tenDaysAgo.toString()
+      }, false)
+
+      expect(response.status).toBe(200)
+      expect(dataLength).toBeLessThanOrEqual(5)
+      expect(pastDateFound).toBeFalsy()
+
     } catch (error) {
       expect(error).toBeFalsy()
     }

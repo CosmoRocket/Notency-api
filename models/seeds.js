@@ -1,4 +1,5 @@
 /* @flow */
+const moment = require('moment')
 const Recipient = require('./Recipient')
 const Notification = require('./Notification')
 const Announcement = require('./Announcement')
@@ -16,7 +17,7 @@ Recipient.create({
 })
 
 Recipient.create({
-  idNo: '0123450',
+  idNo: '201812345678',
   firstName: 'John',
   lastName: 'Smith',
   mobile: '+61444888000',
