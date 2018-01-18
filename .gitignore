@@ -62,3 +62,6 @@ typings/
 
 # check folder
 check
+
+# files folder
+files/*.csv
