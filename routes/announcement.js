@@ -17,7 +17,7 @@ router.get('/announcements/latest/:limit', authMiddleware.requireJWT, async (req
 // GET - Read all announcements
 router.get('/announcements', authMiddleware.requireJWT, async (req, res) => {
   try {
-    const announcements = await Announcement.find()
+    const announcements = await Announcement.find().sort({ createdAt: -1 })
     res.json(announcements)
   }
   catch (error) {
