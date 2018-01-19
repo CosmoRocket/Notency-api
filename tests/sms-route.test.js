@@ -133,7 +133,7 @@ describe('Send a valid OK response to Notification 1', () => {
       expect(response.status).toBe(200)
     }
     catch (error) {
-      console.error(error)
+      console.log(error)
       expect(error).toBeFalsy()
     }
   })
@@ -174,39 +174,40 @@ describe('Send an invalid response to Notification 1', () => {
   })
 })
 
-describe('Send a valid Not OK response to Notification 1', () => {
-  test('It should append the response to notification', async () => {
-    try {
-      const sms = {
-        ToCountry: 'AU',
-        ToState: '',
-        SmsMessageSid: 'SMdb07337513b4f2d7933eda58eaffd0d6',
-        NumMedia: '0',
-        ToCity: '',
-        FromZip: '',
-        SmsSid: 'SMdb07337513b4f2d7933eda58eaffd0d6',
-        FromState: '',
-        SmsStatus: 'received',
-        FromCity: '',
-        Body: 'EQ1 I need help',
-        FromCountry: 'AU',
-        To: '+61448032193',
-        ToZip: '',
-        NumSegments: '1',
-        MessageSid: 'SMdb07337513b4f2d7933eda58eaffd0d6',
-        AccountSid: 'AC22458b497113eec0a935a684af68ab28',
-        From: '+61444888000',
-        ApiVersion: '2010-04-01'
-      }
+// Will no longer pass as it's a duplicate
+// describe('Send a valid Not OK response to Notification 1', () => {
+//   test('It should append the response to notification', async () => {
+//     try {
+//       const sms = {
+//         ToCountry: 'AU',
+//         ToState: '',
+//         SmsMessageSid: 'SMdb07337513b4f2d7933eda58eaffd0d6',
+//         NumMedia: '0',
+//         ToCity: '',
+//         FromZip: '',
+//         SmsSid: 'SMdb07337513b4f2d7933eda58eaffd0d6',
+//         FromState: '',
+//         SmsStatus: 'received',
+//         FromCity: '',
+//         Body: 'EQ1 I need help',
+//         FromCountry: 'AU',
+//         To: '+61448032193',
+//         ToZip: '',
+//         NumSegments: '1',
+//         MessageSid: 'SMdb07337513b4f2d7933eda58eaffd0d6',
+//         AccountSid: 'AC22458b497113eec0a935a684af68ab28',
+//         From: '+61444888000',
+//         ApiVersion: '2010-04-01'
+//       }
 
-      const response = await api.post('/sms/receive', sms)
-      expect(response.status).toBe(200)
-    }
-    catch (error) {
-      expect(error).toBeFalsy()
-    }
-  })
-})
+//       const response = await api.post('/sms/receive', sms)
+//       expect(response.status).toBe(200)
+//     }
+//     catch (error) {
+//       expect(error).toBeFalsy()
+//     }
+//   })
+// })
 
 describe('Send an invalid Not OK response to Notification 1', () => {
   test('It should throw an Invalid response message error', async () => {
@@ -308,7 +309,44 @@ describe('Send with an invalid notification code', () => {
     }
     catch (error) {
       expect(error).toBeTruthy()
-      expect(error.response.data).toEqual('Invalid notification code')
+      expect(error.response.data).toEqual('Notification code is invalid')
+    }
+  })
+})
+
+describe('Send a valid response with duplicate sender', () => {
+  test('It should not append the response to notification', async () => {
+    try {
+      const sms = {
+        ToCountry: 'AU',
+        ToState: '',
+        SmsMessageSid: 'SMdb07337513b4f2d7933eda58eaffd0d6',
+        NumMedia: '0',
+        ToCity: '',
+        FromZip: '',
+        SmsSid: 'SMdb07337513b4f2d7933eda58eaffd0d6',
+        FromState: '',
+        SmsStatus: 'received',
+        FromCity: '',
+        Body: 'EQ1 OK',
+        FromCountry: 'AU',
+        To: '+61448032193',
+        ToZip: '',
+        NumSegments: '1',
+        MessageSid: 'SMdb07337513b4f2d7933eda58eaffd0d6',
+        AccountSid: 'AC22458b497113eec0a935a684af68ab28',
+        From: '+61444888000',
+        ApiVersion: '2010-04-01'
+      }
+
+      const response = await api.post('/sms/receive', sms)
+      // console.log(response)
+      expect('Should catch an error').toBeNull()
+    }
+    catch (error) {
+      // console.error(error)
+      expect(error).toBeTruthy()
+      expect(error.response.data).toEqual('Sender has already responded to this notification')
     }
   })
 })

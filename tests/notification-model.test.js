@@ -2,6 +2,7 @@
 const Recipient = require('../models/Recipient')
 const Message = require('../models/Message')
 const Notification = require('../models/Notification')
+const notificationHelper = require('../helper/notification-helper')
 let recipientObj = ''
 let recipientId = ''
 let notificationId1 = ''
@@ -309,6 +310,44 @@ describe('Get first 5 latest Notification', () => {
       expect(dataLength).toBeLessThanOrEqual(5)
       expect(pastDateFound).toBeFalsy()
     } catch (error) {
+      expect(error).toBeFalsy()
+    }
+  })
+})
+
+describe('Validate the Notification Code', () => {
+  test('It should be valid', async () => {
+    try {
+      const notification = await notificationHelper.getNotificationByCode('EQ2')
+      expect(notification).toBeTruthy()
+    }
+    catch(error) {
+      expect(error).toBeFalsy()
+    }
+  })
+})
+
+describe('Validate the Notification Code', () => {
+  test('It should be invalid', async () => {
+    try {
+      const notification = await notificationHelper.getNotificationByCode('EQ9')
+      expect(notification).toBeFalsy()
+    }
+    catch(error) {
+      expect(error).toBeFalsy()
+    }
+  })
+})
+
+describe('Validate the recipients in Notification 1 against responses', () => {
+  test('It should find recipients who already responded', async () => {
+    try {
+      const sender = await Recipient.findOne({idNo: recipient.idNo})
+      const notification = await notificationHelper.getNotificationByCode('EQ2')
+      const duplicateSender = notificationHelper.hasAlreadyResponded(sender, notification)
+      expect(duplicateSender).toBeTruthy()
+    }
+    catch(error) {
       expect(error).toBeFalsy()
     }
   })

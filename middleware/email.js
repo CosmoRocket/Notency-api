@@ -3,6 +3,7 @@ const Notification = require('../models/Notification')
 const Recipient = require('../models/Recipient')
 const Message = require('../models/Message')
 const messageParser = require('../helper/message-parser')
+const notificationHelper = require('../helper/notification-helper')
 const mailgun = require('./mailgun')
 
 /*
@@ -34,23 +35,36 @@ const receiveEmail = async (req, res) => {
         : ''
       if (!code) throw new Error('Invalid response message')
       else {
-        // Create the response as a Message object
-        const responseMessage = await Message.create(messageAttribute)
+        // Check if the code is a valid code
+        const notification = await notificationHelper.getNotificationByCode(code)
+        if (!!notification) {
+          // Check if the sender has already responded to the Notification
+          if (!notificationHelper.hasAlreadyResponded(sender, notification)) {
+            // Create the response as a Message object
+            const responseMessage = await Message.create(messageAttribute)
 
-        // Update the notification and append the response
-        const notification = await Notification.findOneAndUpdate(
-          { code: code },
-          { $addToSet: { responses: responseMessage } },
-          { upsert: false, new: true, runValidators: true }
-        ).populate({
-          path: 'responses',
-          populate: {
-            path: 'sender',
-            model: 'Recipient'
+            // Update the notification and append the response
+            const notification = await Notification.findOneAndUpdate(
+              { code: code },
+              { $addToSet: { responses: responseMessage } },
+              { upsert: false, new: true, runValidators: true }
+            ).populate({
+              path: 'responses',
+              populate: {
+                path: 'sender',
+                model: 'Recipient'
+              }
+            })
+            if (!notification) throw new Error('Invalid notification code')
+            else res.status(200).json(notification)
           }
-        })
-        if (!notification) throw new Error('Invalid notification code')
-        else res.status(200).json(notification)
+          else {
+            throw new Error('Sender has already responded to this notification')
+          }
+        }
+        else {
+          throw new Error('Notification code is invalid')
+        }
       }
     }
   } catch (error) {

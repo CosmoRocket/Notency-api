@@ -219,19 +219,7 @@ describe('Create a seventh announcement', () => {
   })
 })
 
-describe('Create a duplicate announcement', () => {
-  test('It should note create a duplicated announcement', async () => {
-    try {
-      const response = await api.post('/announcements', attributes1)
-      expect('Should catch an error').toBeNull()
-    } catch (error) {
-      expect(error).toBeTruthy()
-      expect(error.response.status).toBe(400)
-    }
-  })
-})
-
-describe('Get all announcementss', () => {
+describe('Get all announcements', () => {
   test('It should get more than one announcementss', async () => {
     try {
       const response = await api.get('/announcements')
