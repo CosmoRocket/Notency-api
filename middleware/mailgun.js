@@ -12,10 +12,9 @@ const auth = {
   }
 }
 
-const sendEmail = (to, subject, text, html, attachment) => {
-  try {
+const sendEmail = (to, subject, text, html, attachment) => (
+  new Promise((success, fail) => {
     const nodemailerMailgun = nodemailer.createTransport(mg(auth))
-
     nodemailerMailgun.sendMail(
       {
         from: `Cosmo Rocket Team <mailgun@${MAILGUN_DOMAIN}>`,
@@ -31,18 +30,16 @@ const sendEmail = (to, subject, text, html, attachment) => {
           }
         ]
       },
-      function(err, info) {
+      function (err, info) {
         if (err) {
-          console.log('Error: ' + err)
+          fail(err)
         } else {
-          console.log('Response: ' + info)
+          success(info)
         }
       }
     )
-  } catch (error) {
-    console.error(error)
-  }
-}
+  })
+)
 
 module.exports = {
   sendEmail
