@@ -10,7 +10,6 @@ const mailgun = require('./mailgun')
 */
 // $FlowFixMe - Turn off type annotations
 const receiveEmail = async (req, res) => {
-
   try {
     // Get the JSON
     const attributes = req.body
@@ -66,10 +65,16 @@ const receiveEmail = async (req, res) => {
 const sendEmail = async (req, res) => {
   try {
     const attributes = req.body
-    const data = await mailgun.sendEmail(attributes.recipients, attributes.subject, attributes.text, attributes.html)
+    const attachment = req.file
+    const data = await mailgun.sendEmail(
+      attributes.recipients,
+      attributes.subject,
+      attributes.text,
+      attributes.html,
+      attachment
+    )
     res.status(201).json(data)
-  }
-  catch (error) {
+  } catch (error) {
     res.status(400).json(error.message)
   }
 }

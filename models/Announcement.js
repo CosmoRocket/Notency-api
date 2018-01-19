@@ -12,10 +12,12 @@ Groups - e.g. Australia, France
 Recipients = Array of Recipient [Recipient]
 */
 const announcementSchema = new Schema({
-  subject: { type: String, required: true, unique: true },
+  subject: { type: String, required: true },
   bodyHtml: { type: String, required: true },
   groups: { type: Array, default: [] },
-  recipients: [{ type: Schema.ObjectId, ref: 'Recipient', default: [], required: true }],
+  recipients: [
+    { type: Schema.ObjectId, ref: 'Recipient', default: [], required: true }
+  ],
   createdAt: { type: Date, default: Date.now }
 })
 
