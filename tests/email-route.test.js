@@ -141,23 +141,24 @@ describe('Send an invalid response to Notification 1', () => {
   })
 })
 
-describe('Send a valid Not OK response to Notification 1', () => {
-  test('It should append the response to notification', async () => {
-    try {
-      const email = {
-        'sender': 'somone@example.com',
-        'subject': 'Re: Hello',
-        'stripped-text': 'EQ1 I need help'
-      }
+// Will no longer pass as it's a duplicate
+// describe('Send a valid Not OK response to Notification 1', () => {
+//   test('It should append the response to notification', async () => {
+//     try {
+//       const email = {
+//         'sender': 'somone@example.com',
+//         'subject': 'Re: Hello',
+//         'stripped-text': 'EQ1 I need help'
+//       }
 
-      const response = await api.post('/email/receive', email)
-      expect(response.status).toBe(200)
-    }
-    catch (error) {
-      expect(error).toBeFalsy()
-    }
-  })
-})
+//       const response = await api.post('/email/receive', email)
+//       expect(response.status).toBe(200)
+//     }
+//     catch (error) {
+//       expect(error).toBeFalsy()
+//     }
+//   })
+// })
 
 describe('Send an invalid Not OK response to Notification 1', () => {
   test('It should throw an Invalid response message error', async () => {
@@ -211,7 +212,26 @@ describe('Send with an invalid notification code', () => {
     }
     catch (error) {
       expect(error).toBeTruthy()
-      expect(error.response.data).toEqual('Invalid notification code')
+      expect(error.response.data).toEqual('Notification code is invalid')
+    }
+  })
+})
+
+describe('Send a duplicate valid OK response to Notification 1', () => {
+  test('It should not append the response to notification', async () => {
+    try {
+      const email = {
+        'sender': 'somone@example.com',
+        'subject': 'Re: Hello',
+        'stripped-text': 'EQ1 OK'
+      }
+
+      const response = await api.post('/email/receive', email)
+      expect('Should catch an error').toBeNull()
+    }
+    catch (error) {
+      expect(error).toBeTruthy()
+      expect(error.response.data).toEqual('Sender has already responded to this notification')
     }
   })
 })
