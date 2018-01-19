@@ -9,9 +9,8 @@ const TWILIO_NUMBER = process.env.TWILIO_NUMBER
 const sendSMS = (to, body) => {
   // Create new twilio client
   const client = new twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
-
   return new Promise((success, fail) => {
-    if(!to || !body) throw new Error('Invalid SMS')
+    if (!to || !body) throw new Error('Invalid SMS')
     else {
       // Send the text message.
       client.messages.create(
@@ -33,11 +32,10 @@ const sendSMS = (to, body) => {
 }
 
 // Send Group SMS Messages
-const sendGroupSMS = (numbers, body) => {
-  return new Promise((success, fail) => {
+const sendGroupSMS = (numbers, body) => (
+  new Promise((success, fail) => {
     const delivered = [] // List of numbers in which message is delivered successfully
     const failed = [] // List of numbers in which message failed delivery
-
     Promise.all(
       // For every recipient phone number
       numbers.map(to => {
@@ -54,7 +52,7 @@ const sendGroupSMS = (numbers, body) => {
       success({ body, delivered, failed })
     })
   })
-}
+)
 
 module.exports = {
   sendSMS,
