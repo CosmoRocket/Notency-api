@@ -14,7 +14,7 @@ router.get('/notifications/latest/:limit', authMiddleware.requireJWT, async (req
         path: 'sender',
         model: 'Recipient'
       }
-    })
+    }).populate('recipients')
     res.json(notifications)
   } catch (error) {
     res.status(400).json({ error: error.message })
@@ -24,14 +24,14 @@ router.get('/notifications/latest/:limit', authMiddleware.requireJWT, async (req
 // GET - Read all notifications
 router.get('/notifications', authMiddleware.requireJWT, async (req, res) => {
   try {
-    const notifications = await Notification.find()
+    const notifications = await Notification.find().sort({ createdAt: -1 })
       .populate({
         path: 'responses',
         populate: {
           path: 'sender',
           model: 'Recipient'
         }
-      })
+      }).populate('recipients')
     res.json(notifications)
 
   } catch (error) {
@@ -49,7 +49,7 @@ router.get('/notifications/:id', authMiddleware.requireJWT, async (req, res) => 
         path: 'sender',
         model: 'Recipient'
       }
-    })
+    }).populate('recipients')
     if (notification) {
       res.json(notification)
     } else {
@@ -69,7 +69,6 @@ router.post('/notifications', authMiddleware.requireJWT, async (req, res) => {
     res.status(201).json(notification)
   }
   catch (error) {
-    console.error('error', error)
     res.status(400).json({ error: error })
   }
 })
