@@ -20,3 +20,21 @@ describe('Function should set record to active', () => {
     expect(recipientParser.formatRecordsForRecipients(input)[0].active).toEqual(expected)
   })
 })
+
+describe('Function should add plus signs to mobile numbers', () => {
+  test('It will append the plus sign', () => {
+    const input = '61000000000'
+    const expected = '+61000000000'
+    expect(recipientParser.appendPlusSign(input)).toEqual(expected)
+  })
+})
+
+describe('Function should add plus signs to mobile numbers when record is formatted', () => {
+  test('It will append the plus sign', () => {
+    const input = [{
+      mobile: '61000000000'
+    }]
+    const expected = '+61000000000'
+    expect(recipientParser.formatRecordsForRecipients(input)[0].mobile).toEqual(expected)
+  })
+})
