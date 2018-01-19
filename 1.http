@@ -1,0 +1,19 @@
+POST http://localhost:7000/auth
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "password"
+}
+###
+POST http://localhost:7000/auth/register
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "password"
+}
+
+###
+GET http://localhost:7000/recipients
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTE2MjUyMTUyLCJzdWIiOiI1YTYwMmJjNTJkYTM3ODZiYWJjNTMzZTcifQ.wLQDUeInIqRV_j2vzXLWo7xQYWsL41t52wyabMs_2wM
