@@ -302,7 +302,7 @@ describe('Send an Email message with empty recipient', () => {
       expect('Should catch an error').toBeNull()
     } catch (error) {
       expect(error).toBeTruthy()
-      expect(error.response.data).toEqual("'to' parameter is missing")
+      expect(error.response.data).toEqual("'to' parameter is not a valid address. please check documentation")
     }
   })
 })
