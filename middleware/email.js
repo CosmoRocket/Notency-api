@@ -57,10 +57,17 @@ const receiveEmail = async (req, res) => {
             })
             if (!notification) throw new Error('Invalid notification code')
             else res.status(200).json(notification)
+<<<<<<< HEAD
           }
           else {
             throw new Error('Sender has already responded to this notification')
           }
+=======
+          }
+          else {
+            throw new Error('Sender has already responded to this notification')
+          }
+>>>>>>> 90d168a85c20d023af4b7266304dbf0f4501da08
         }
         else {
           throw new Error('Notification code is invalid')
