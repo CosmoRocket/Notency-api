@@ -35,9 +35,7 @@ const numWords = words => {
 * Get Nth word from a string
 */
 // $FlowFixMe - Turn off type annotations
-const getNthWord = (str, num) => {
-  return str.split(' ')[num - 1]
-}
+const getNthWord = (str, num) => str.split(' ')[num - 1]
 
 /*
 * Checks if a message responds as <Code> OK
@@ -72,9 +70,7 @@ const parseCodeFromMessage = message => {
 * Replace multiple spaces with a single space
 */
 // $FlowFixMe - Turn off type annotations
-const replaceMultipleSpaces = str => {
-  return str.replace(/ +(?= )/g, '')
-}
+const replaceMultipleSpaces = str => str.replace(/ +(?= )/g, '')
 
 module.exports = {
   isValidResponse,
