@@ -22,10 +22,31 @@ const hasAlreadyResponded = (sender, notification) => {
   // Get array of responders from notification responses
   const responders = notification.responses.map(response => convertIdToString(response.sender))
   // Check if sender has already responded
-  return responders.indexOf(convertIdToString(sender._id))>-1
+  return responders.indexOf(convertIdToString(sender._id)) > -1
+}
+
+/*
+* Add Response Message to Notification
+*/
+// $FlowFixMe - Turn off type annotations
+const addResponseToNotification = async (code, responseMessage) => {
+  // Find and update a Notification with given code
+  const notification = await Notification.findOneAndUpdate(
+    { code: code },
+    { $addToSet: { responses: responseMessage } },
+    { upsert: false, new: true, runValidators: true }
+  ).populate({
+    path: 'responses',
+    populate: {
+      path: 'sender',
+      model: 'Recipient'
+    }
+  })
+  return notification
 }
 
 module.exports = {
   getNotificationByCode,
-  hasAlreadyResponded
+  hasAlreadyResponded,
+  addResponseToNotification
 }
