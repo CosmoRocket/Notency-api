@@ -6,12 +6,12 @@ const TWILIO_AUTH_TOKEN = process.env.TWILIO_AUTH_TOKEN
 const TWILIO_NUMBER = process.env.TWILIO_NUMBER
 
 // Send SMS Messages directly using a Twilio Number
-const sendSMS = (to, body) => {
-  // Create new twilio client
-  const client = new twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
-  return new Promise((success, fail) => {
+const sendSMS = (to, body) => (
+  new Promise((success, fail) => {
     if (!to || !body) throw new Error('Invalid SMS')
     else {
+      // Create new twilio client
+      const client = new twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
       // Send the text message.
       client.messages.create(
         {
@@ -29,7 +29,7 @@ const sendSMS = (to, body) => {
       )
     }
   })
-}
+)
 
 // Send Group SMS Messages
 const sendGroupSMS = (numbers, body) => (
