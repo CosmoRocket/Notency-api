@@ -20,7 +20,7 @@ const receiveEmail = async (req, res) => {
 
     // Get Sender as a Recipient using a Mobile number
     const sender = await Recipient.findOne({ email: email })
-
+    // Check if Sender is a valid Recipient
     if (!sender) throw new Error('Invalid sender')
     else {
       // Create a Message based on the JSON
@@ -28,7 +28,6 @@ const receiveEmail = async (req, res) => {
         sender: sender,
         body: body
       }
-
       // Parse code from message body
       const code = messageParser.isValidResponse(body)
         ? messageParser.parseCodeFromMessage(body)
@@ -44,20 +43,10 @@ const receiveEmail = async (req, res) => {
           if (!notificationHelper.hasAlreadyResponded(sender, notification)) {
             // Create the response as a Message object
             const responseMessage = await Message.create(messageAttribute)
-
             // Update the notification and append the response
-            const notification = await Notification.findOneAndUpdate(
-              { code: code },
-              { $addToSet: { responses: responseMessage } },
-              { upsert: false, new: true, runValidators: true }
-            ).populate({
-              path: 'responses',
-              populate: {
-                path: 'sender',
-                model: 'Recipient'
-              }
-            })
-            if (!notification) throw new Error('Invalid notification code')
+            const notification = await notificationHelper.addResponseToNotification(code, responseMessage)
+            // Check if notification was successfully updated
+            if (!notification) throw new Error('Notification code is invalid')
             else res.status(200).json(notification)
           } else {
             throw new Error('Sender has already responded to this notification')
