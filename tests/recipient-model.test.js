@@ -1,6 +1,6 @@
 /* @flow */
 const Recipient = require('../models/Recipient')
-let id = null
+let id
 const attributes1 = {
   idNo: '201812345678',
   firstName: 'John',

@@ -15,11 +15,11 @@ const getToken = () => {
   return api.defaults.headers.common['Authorization'] 
 }
 
-let recipientId = ''
-let recipientObj = ''
-let announcementId1 = ''
-let announcementId2 = ''
-let announcementId3 = ''
+let recipientId
+let recipientObj
+let announcementId1
+let announcementId2
+let announcementId3
 const user = {
   username: 'admin',
   password: 'password123'

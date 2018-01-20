@@ -14,8 +14,8 @@ const getToken = () => {
   return api.defaults.headers.common['Authorization'] 
 }
 
-let sender = ''
-let messageId = ''
+let sender
+let messageId
 const user = {
   username: 'admin',
   password: 'password123'

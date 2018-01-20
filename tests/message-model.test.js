@@ -1,8 +1,8 @@
 /* @flow */
 const Recipient = require('../models/Recipient')
 const Message = require('../models/Message')
-let sender = ''
-let messageId = ''
+let sender
+let messageId
 const recipient = {
   idNo: '201812345678',
   firstName: 'John',

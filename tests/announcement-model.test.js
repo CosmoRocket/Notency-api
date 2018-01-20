@@ -2,10 +2,10 @@
 const Recipient = require('../models/Recipient')
 const Message = require('../models/Message')
 const Announcement = require('../models/Announcement')
-let recipientObj = ''
-let announcementId1 = ''
-let announcementId2 = ''
-let announcementId3 = ''
+let recipientObj
+let announcementId1
+let announcementId2
+let announcementId3
 
 const recipient = {
   idNo: '201812345678',

@@ -3,11 +3,11 @@ const Recipient = require('../models/Recipient')
 const Message = require('../models/Message')
 const Notification = require('../models/Notification')
 const notificationHelper = require('../helper/notification-helper')
-let recipientObj = ''
-let recipientId = ''
-let notificationId1 = ''
-let notificationId2 = ''
-let notificationId3 = ''
+let recipientObj
+let recipientId
+let notificationId1
+let notificationId2
+let notificationId3
 
 const recipient = {
   idNo: '201812345678',
