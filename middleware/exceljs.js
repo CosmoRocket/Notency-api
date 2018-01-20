@@ -1,16 +1,6 @@
 /* @flow */
 const Excel = require('exceljs')
 
-// Write CSV Files
-// $FlowFixMe - Turn off type annotations
-// const writeToCsv = (filename, sheetName, columns, data) => {
-//   const workbook = createAndFillWorkbook(sheetName, columns, data)
-//   workbook.csv.writeFile(filename).then(() => {
-//     // Done
-//     console.log('Done')
-//   })
-// }
-
 // Create a Workbook and a sheet then fill it with data
 // $FlowFixMe - Turn off type annotations
 const createAndFillWorkbook = (sheetName, columns, data) => {
@@ -74,6 +64,5 @@ const readFromCsv = filename => (
 )
 
 module.exports = {
-  // writeToCsv,
   readFromCsv
 }

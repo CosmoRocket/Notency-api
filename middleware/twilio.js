@@ -1,3 +1,4 @@
+/* @flow */
 const twilio = require('twilio')
 
 /* Twilio Credentials */
@@ -6,7 +7,9 @@ const TWILIO_AUTH_TOKEN = process.env.TWILIO_AUTH_TOKEN
 const TWILIO_NUMBER = process.env.TWILIO_NUMBER
 
 // Send SMS Messages directly using a Twilio Number
+// $FlowFixMe - Turn off type annotations
 const sendSMS = (to, body) => (
+  // $FlowFixMe - Turn off type annotations
   new Promise((success, fail) => {
     if (!to || !body) throw new Error('Invalid SMS')
     else {
@@ -32,7 +35,9 @@ const sendSMS = (to, body) => (
 )
 
 // Send Group SMS Messages
+// $FlowFixMe - Turn off type annotations
 const sendGroupSMS = (numbers, body) => (
+  // $FlowFixMe - Turn off type annotations
   new Promise((success, fail) => {
     const delivered = [] // List of numbers in which message is delivered successfully
     const failed = [] // List of numbers in which message failed delivery

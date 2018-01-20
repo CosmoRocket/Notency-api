@@ -1,3 +1,4 @@
+/* @flow */
 const multer = require('multer')
 const path = require('path')
 const Recipient = require('../models/Recipient')
@@ -19,6 +20,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage })
 
 // Upload File Request/Response
+// $FlowFixMe - Turn off type annotations
 const uploadFile = async (req, res) => {
   try {
     // Upload folder
