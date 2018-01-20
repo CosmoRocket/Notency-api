@@ -3,8 +3,8 @@ const moment = require('moment')
 
 // Prepares a Record object for Recipients
 // $FlowFixMe - Turn off type annotations
-const formatRecordsForRecipients = records => {
-  return records.map(record => {
+const formatRecordsForRecipients = records => (
+  records.map(record => {
     // Records will be automatically set to active
     record.active = true
     // Mobile numbers will always need a plus sign
@@ -15,7 +15,7 @@ const formatRecordsForRecipients = records => {
     // Return the formatted record
     return record
   })
-}
+)
 
 // Append plus sign to mobile numbers
 // $FlowFixMe - Turn off type annotations
