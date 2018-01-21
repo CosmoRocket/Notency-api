@@ -11,6 +11,7 @@ const pushMessage = (message, channel, event) => {
   const PUSHER_SECRET = process.env.PUSHER_SECRET
   const PUSHER_CLUSTER = process.env.PUSHER_CLUSTER
 
+  // Pusher credentials
   const pusher = new Pusher({
     appId: PUSHER_APP_ID,
     key: PUSHER_KEY,
@@ -19,6 +20,7 @@ const pushMessage = (message, channel, event) => {
     encrypted: true
   })
 
+  // Return Pusher as a Promise
   return new Promise((success, fail) => {
     if (!!message) {
       pusher.trigger(channel, event, {
