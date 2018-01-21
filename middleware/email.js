@@ -50,7 +50,7 @@ const receiveEmail = async (req, res) => {
             if (!notification) throw new Error('Notification code is invalid')
             else {
               // Create message
-              const pushMsg = `${mobile}: ${body}`
+              const pushMsg = `${email}: ${body}`
               // Send message to pusher service
               await pusher.pushMessage(pushMsg, code, 'notency-receive-response')
               // Response ok
