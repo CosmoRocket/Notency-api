@@ -1,5 +1,10 @@
+/* @flow */
 const Pusher = require('pusher')
 
+/*
+*  Push message to pusher service
+*/
+// $FlowFixMe - Turn off type annotations
 const pushMessage = (message, channel, event) => {
   const PUSHER_APP_ID = process.env.PUSHER_APP_ID
   const PUSHER_KEY = process.env.PUSHER_KEY
