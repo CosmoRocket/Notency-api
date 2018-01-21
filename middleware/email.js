@@ -5,6 +5,7 @@ const Message = require('../models/Message')
 const messageParser = require('../helper/message-parser')
 const notificationHelper = require('../helper/notification-helper')
 const mailgun = require('./mailgun')
+const pusher = require('./pusher')
 
 /*
 *  Receive E-mail message
@@ -47,7 +48,14 @@ const receiveEmail = async (req, res) => {
             const notification = await notificationHelper.addResponseToNotification(code, responseMessage)
             // Check if notification was successfully updated
             if (!notification) throw new Error('Notification code is invalid')
-            else res.status(200).json(notification)
+            else {
+              // Create message
+              const pushMsg = `${mobile}: ${body}`
+              // Send message to pusher service
+              await pusher.pushMessage(pushMsg, code, 'notency-receive-response')
+              // Response ok
+              res.status(200).json(notification)
+            }
           } else {
             throw new Error('Sender has already responded to this notification')
           }
