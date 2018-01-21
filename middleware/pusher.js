@@ -21,6 +21,7 @@ const pushMessage = (message, channel, event) => {
   })
 
   // Return Pusher as a Promise
+  // $FlowFixMe - Turn off type annotations
   return new Promise((success, fail) => {
     if (!!message) {
       pusher.trigger(channel, event, {
