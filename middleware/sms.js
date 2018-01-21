@@ -49,7 +49,7 @@ const receiveSms = async (req, res) => {
               // Create message
               const pushMsg = `${mobile}: ${body}`
               // Send message to pusher service
-              await pusher.pushMessage(pushMsg, code, 'notency-receive-response')
+              await pusher.pushMessage(pushMsg, 'notency-channel', 'notency-receive-response')
               // Response ok
               res.status(200).json(notification)
             }
