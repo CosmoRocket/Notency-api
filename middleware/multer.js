@@ -9,7 +9,7 @@ const { formatRecordsForRecipients } = require('../helper/recipient-parser')
 const storage = multer.diskStorage({
   destination: (req, files, cb) => {
     // Files will be saved in the 'tmp' directory
-    cb(null, './tmp')
+    cb(null, '/tmp')
   },
   filename: (req, file, cb) => {
     cb(null, file.originalname)
@@ -24,7 +24,7 @@ const upload = multer({ storage })
 const uploadFile = async (req, res) => {
   try {
     // Upload folder
-    const UPLOAD_FOLDER = 'tmp'
+    const UPLOAD_FOLDER = '/tmp'
     const FILE_NAME = req.file ? req.file.originalname : ''
     // If File Name is present
     if (FILE_NAME) {

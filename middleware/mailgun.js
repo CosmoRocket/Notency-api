@@ -23,7 +23,7 @@ const sendEmail = (to, subject, text, html, attachment) => (
   // $FlowFixMe - Turn off type annotations
   new Promise((success, fail) => {
     const nodemailerMailgun = nodemailer.createTransport(mg(auth))
-    const UPLOAD_FOLDER = 'tmp'
+    const UPLOAD_FOLDER = '/tmp'
     nodemailerMailgun.sendMail(
       {
         // $FlowFixMe - MAILGUN_DOMAIN is an env variable
