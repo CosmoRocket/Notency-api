@@ -23,6 +23,7 @@ const sendEmail = (to, subject, text, html, attachment) => (
   // $FlowFixMe - Turn off type annotations
   new Promise((success, fail) => {
     const nodemailerMailgun = nodemailer.createTransport(mg(auth))
+    const UPLOAD_FOLDER = 'tmp'
     nodemailerMailgun.sendMail(
       {
         // $FlowFixMe - MAILGUN_DOMAIN is an env variable
@@ -33,9 +34,9 @@ const sendEmail = (to, subject, text, html, attachment) => (
         text,
         attachments: !!attachment && [
           {
-            filename: !!attachment && `files/${attachment.filename}`,
+            filename: !!attachment && `${UPLOAD_FOLDER}/${attachment.filename}`,
             content:
-              !!attachment && fs.readFileSync(`files/${attachment.filename}`)
+              !!attachment && fs.readFileSync(`${UPLOAD_FOLDER}/${attachment.filename}`)
           }
         ]
       },

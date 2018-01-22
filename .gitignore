@@ -65,3 +65,4 @@ check
 
 # files folder
 files/*.csv
+tmp/*.csv
