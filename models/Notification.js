@@ -15,8 +15,8 @@ Recipients = Array of Recipient [Recipient]
 Responses = Array of Message [Sender (Recipient) and Body]
 */
 const notificationSchema = new Schema({
-  code: { type: String, required: true },
-  subject: { type: String, required: true, unique: true },
+  code: { type: String, required: true, unique: true },
+  subject: { type: String, required: true },
   body: { type: String, required: true },
   bodyHtml: { type: String, required: true },
   groups: { type: Array, default: [] },
