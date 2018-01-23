@@ -34,8 +34,9 @@ const receiveSms = async (req, res) => {
         : ''
       if (!code) throw new Error('Invalid response message')
       else {
-        // Check if the code is a valid code
+        // Get the notification by code
         const notification = await notificationHelper.getNotificationByCode(code)
+        // Check if notification code is invalid
         if (!!notification) {
           // Check if the sender has already responded to the Notification
           if (!notificationHelper.hasAlreadyResponded(sender, notification)) {
@@ -43,16 +44,12 @@ const receiveSms = async (req, res) => {
             const responseMessage = await Message.create(messageAttribute)
             // Update the notification and append the response
             const notification = await notificationHelper.addResponseToNotification(code, responseMessage)
-            // Check if notification was successfully updated
-            if (!notification) throw new Error('Notification code is invalid')
-            else {
-              // Create message
-              const pushMsg = `${mobile}: ${body}`
-              // Send message to pusher service
-              await pusher.pushMessage(pushMsg, 'notency-channel', 'notency-receive-response')
-              // Response ok
-              res.status(200).json(notification)
-            }
+            // Create message
+            const pushMsg = `${mobile}: ${body}`
+            // Send message to pusher service
+            await pusher.pushMessage(pushMsg, 'notency-channel', 'notency-receive-response')
+            // Response ok
+            res.status(200).json(notification)
           }
           else {
             throw new Error('Sender has already responded to this notification')
@@ -64,7 +61,12 @@ const receiveSms = async (req, res) => {
       }
     }
   } catch (error) {
-    res.status(400).json(error.message)
+    if (error.message.includes('E11000')) {
+      res.status(400).json('Code has already been used. Please enter a unique 3-digit code')
+    }
+    else {
+      res.status(400).json(error.message)
+    }
   }
 }
 
