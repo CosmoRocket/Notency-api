@@ -49,7 +49,7 @@ const receiveSms = async (req, res) => {
             // Send message to pusher service
             await pusher.pushMessage(pushMsg, 'notency-channel', 'notency-receive-response')
             // Response ok
-            res.status(200).json(notification)
+            res.send(`<Response><Message>${attributes}</Message></Response>`)
           }
           else {
             throw new Error('Sender has already responded to this notification')
