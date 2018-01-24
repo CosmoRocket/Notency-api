@@ -32,8 +32,7 @@ const receiveSms = async (req, res) => {
       const code = messageParser.isValidResponse(body)
         ? messageParser.parseCodeFromMessage(body)
         : ''
-      if (!code) throw new Error('Invalid response message')
-      else {
+      if (!!code) {
         // Get the notification by code
         const notification = await notificationHelper.getNotificationByCode(code)
         // Check if notification code is invalid
@@ -55,14 +54,16 @@ const receiveSms = async (req, res) => {
           else {
             const alreadyRespondedMsg = 'You have already responded to this notification code.'
             res.send(`<Response><Message>${alreadyRespondedMsg}</Message></Response>`)
-            throw new Error('Sender has already responded to this notification')
           }
         }
         else {
           const invalidCodeMsg = 'The notification code you have provided is invalid. Please check the 3-digit code.'
           res.send(`<Response><Message>${invalidCodeMsg}</Message></Response>`)
-          throw new Error('Notification code is invalid')
         }
+      }
+      else {
+        const noCodeMsg = 'You have not provided the notification code. Please use the 3-digit code found in the notification.'
+        res.send(`<Response><Message>${noCodeMsg}</Message></Response>`)
       }
     }
   } catch (error) {

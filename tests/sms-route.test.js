@@ -140,7 +140,7 @@ describe('Send a valid OK response to Notification 1', () => {
 })
 
 describe('Send an invalid response to Notification 1', () => {
-  test('It should throw an Invalid response message error', async () => {
+  test('It should show the proper response message', async () => {
     try {
       const sms = {
         ToCountry: 'AU',
@@ -164,12 +164,12 @@ describe('Send an invalid response to Notification 1', () => {
         ApiVersion: '2010-04-01'
       }
 
+      const expected = '<Response><Message>You have not provided the notification code. Please use the 3-digit code found in the notification.</Message></Response>'
       const response = await api.post('/sms/receive', sms)
-      expect('Should catch an error').toBeNull()
+      expect(response.data).toEqual(expected)
     }
     catch (error) {
-      expect(error).toBeTruthy()
-      expect(error.response.data).toEqual('Invalid response message')
+      expect(error).toBeFalsy()
     }
   })
 })
@@ -210,7 +210,7 @@ describe('Send an invalid response to Notification 1', () => {
 // })
 
 describe('Send an invalid Not OK response to Notification 1', () => {
-  test('It should throw an Invalid response message error', async () => {
+  test('It should show the proper response message', async () => {
     try {
       const sms = {
         ToCountry: 'AU',
@@ -234,12 +234,12 @@ describe('Send an invalid Not OK response to Notification 1', () => {
         ApiVersion: '2010-04-01'
       }
 
+      const expected = '<Response><Message>You have not provided the notification code. Please use the 3-digit code found in the notification.</Message></Response>'
       const response = await api.post('/sms/receive', sms)
-      expect('Should catch an error').toBeNull()
+      expect(response.data).toEqual(expected)
     }
     catch (error) {
-      expect(error).toBeTruthy()
-      expect(error.response.data).toEqual('Invalid response message')
+      expect(error).toBeFalsy()
     }
   })
 })
@@ -247,7 +247,7 @@ describe('Send an invalid Not OK response to Notification 1', () => {
 describe('Send with an invalid sender', () => {
   test('It should throw an Invalid response message error', async () => {
     try {
-      const email = {
+      const sms = {
         ToCountry: 'AU',
         ToState: '',
         SmsMessageSid: 'SMdb07337513b4f2d7933eda58eaffd0d6',
@@ -269,7 +269,7 @@ describe('Send with an invalid sender', () => {
         ApiVersion: '2010-04-01'
       }
 
-      const response = await api.post('/sms/receive', email)
+      const response = await api.post('/sms/receive', sms)
       expect('Should catch an error').toBeNull()
     }
     catch (error) {
@@ -280,9 +280,9 @@ describe('Send with an invalid sender', () => {
 })
 
 describe('Send with an invalid notification code', () => {
-  test('It should throw an Invalid response message error', async () => {
+  test('It should show the proper response message', async () => {
     try {
-      const email = {
+      const sms = {
         ToCountry: 'AU',
         ToState: '',
         SmsMessageSid: 'SMdb07337513b4f2d7933eda58eaffd0d6',
@@ -304,12 +304,12 @@ describe('Send with an invalid notification code', () => {
         ApiVersion: '2010-04-01'
       }
 
-      const response = await api.post('/sms/receive', email)
-      expect('Should catch an error').toBeNull()
+      const expected = '<Response><Message>The notification code you have provided is invalid. Please check the 3-digit code.</Message></Response>'
+      const response = await api.post('/sms/receive', sms)
+      expect(response.data).toEqual(expected)
     }
     catch (error) {
-      expect(error).toBeTruthy()
-      expect(error.response.data).toEqual('Notification code is invalid')
+      expect(error).toBeFalsy()
     }
   })
 })
@@ -339,14 +339,13 @@ describe('Send a valid response with duplicate sender', () => {
         ApiVersion: '2010-04-01'
       }
 
+      const expected = '<Response><Message>You have already responded to this notification code.</Message></Response>'
       const response = await api.post('/sms/receive', sms)
-      // console.log(response)
-      expect('Should catch an error').toBeNull()
+      expect(response.data).toEqual(expected)
     }
     catch (error) {
       // console.error(error)
-      expect(error).toBeTruthy()
-      expect(error.response.data).toEqual('Sender has already responded to this notification')
+      expect(error).toBeFalsy()
     }
   })
 })
