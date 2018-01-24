@@ -48,8 +48,9 @@ const receiveSms = async (req, res) => {
             const pushMsg = `${mobile}: ${body}`
             // Send message to pusher service
             await pusher.pushMessage(pushMsg, 'notency-channel', 'notency-receive-response')
-            // Response ok
-            res.send(`<Response><Message>${JSON.stringify(attributes)}</Message></Response>`)
+            // Respond with acknowledgment
+            const acknowledgment = 'This is to acknowledge that we received your response. Thank you.'
+            res.send(`<Response><Message>${acknowledgment}</Message></Response>`)
           }
           else {
             throw new Error('Sender has already responded to this notification')
