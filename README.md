@@ -18,6 +18,11 @@ MAILGUN_DOMAIN =
 MAILGUN_API_KEY =
 MAILGUN_PUB_KEY =
 
+PUSHER_APP_ID =
+PUSHER_KEY =
+PUSHER_SECRET =
+PUSHER_CLUSTER =
+
 MONGO_URI = 
 MONGO_TEST_URI = 
 ```
@@ -29,14 +34,16 @@ Notency API is built with 100% Test Driven Development coverage
 ```
 yarn flow
 ```
-2. Run test server
+2. Ensure that there are no errors in Flow
+3. Run test server
 ```
 yarn test
 ```
-3. Run tests
+4. Run tests
 ```
 yarn jest
 ```
+5. Ensure that there are no errors in Jest
 
 ## Routes
 ### User
