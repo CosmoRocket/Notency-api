@@ -49,14 +49,18 @@ const receiveSms = async (req, res) => {
             // Send message to pusher service
             await pusher.pushMessage(pushMsg, 'notency-channel', 'notency-receive-response')
             // Respond with acknowledgment
-            const acknowledgment = 'This is to acknowledge that we received your response. Thank you.'
-            res.send(`<Response><Message>${acknowledgment}</Message></Response>`)
+            const acknowledgmentMsg = 'This is to acknowledge that we received your response. Thank you for your reply.'
+            res.send(`<Response><Message>${acknowledgmentMsg}</Message></Response>`)
           }
           else {
+            const alreadyRespondedMsg = 'You have already responded to this notification code.'
+            res.send(`<Response><Message>${alreadyRespondedMsg}</Message></Response>`)
             throw new Error('Sender has already responded to this notification')
           }
         }
         else {
+          const invalidCodeMsg = 'The notification code you have provided is invalid. Please check the 3-digit code.'
+          res.send(`<Response><Message>${invalidCodeMsg}</Message></Response>`)
           throw new Error('Notification code is invalid')
         }
       }
