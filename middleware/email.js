@@ -33,8 +33,7 @@ const receiveEmail = async (req, res) => {
       const code = messageParser.isValidResponse(body)
         ? messageParser.parseCodeFromMessage(body)
         : ''
-      if (!code) throw new Error('Invalid response message')
-      else {
+      if (!!code) {
         // Get the notification by code
         const notification = await notificationHelper.getNotificationByCode(code)
         // Check if notification code is invalid
@@ -59,6 +58,9 @@ const receiveEmail = async (req, res) => {
         else {
           throw new Error('Notification code is invalid')
         }
+      }
+      else {
+        throw new Error('Invalid response message')
       }
     }
   } catch (error) {
