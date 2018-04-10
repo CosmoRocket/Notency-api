@@ -24,7 +24,8 @@ server.use('/', [
   require('./routes/announcement'),
   require('./routes/sms'),
   require('./routes/email'),
-  require('./routes/fileUpload')
+  require('./routes/fileUpload'),
+  require('./routes/checkServer'),
 ])
 
 // Error handler
