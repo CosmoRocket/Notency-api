@@ -1,7 +1,7 @@
 /* @flow */
 const mongoose = require('mongoose')
 // Dotenv - Necessary to be placed here for process.env to be recognised on runtime
-require('dotenv').config()
+if (process.env.NODE_ENV !== 'production') require('dotenv').config()
 // Use the Promise functionality built into Node.js
 mongoose.Promise = global.Promise
 
